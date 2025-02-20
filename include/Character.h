@@ -19,6 +19,10 @@ public:
         health += card.getHealthEffect();
         respect += card.getRespectEffect();
         magic += card.getMagicEffect();
+        if (health <=0)
+        {
+            health = 0; // add death 
+        }
     }
     virtual bool IsAlive () const 
     { 
