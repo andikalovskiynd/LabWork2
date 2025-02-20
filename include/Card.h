@@ -2,27 +2,26 @@
 #define CARD_H
 
 #include <string>
-#include "Character.h"
+#include "GameObject.h"
 
 class Card 
 {
 protected:
     std::string name;
-    int level;
     int baseHealthEffect;
     int baseRespectEffect;
     int baseMagicEffect;
 
 public:
-    Card(const std::string &n, int lvl, int hEffect, int rEffect, int mEffect) : name(n), level(lvl), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect) {}
+    Card(const std::string &n, int hEffect, int rEffect, int mEffect) : name(n), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect) {}
 
-    virtual void applyEffect(Character &user, Character &opponent) const 
-    {
-        user.ApplyCardEffect(baseHealthEffect * level, baseRespectEffect * level, baseMagicEffect * level);
-    }
-
-    const std::string& getName() const {return name;}
     virtual ~Card() = default;
+    const std::string& getName() const {return name;}
+    int getHealthEffect() const {return baseHealthEffect;}
+    int getRespectEffect() const {return baseRespectEffect;}
+    int getMagicEffect() const {return baseMagicEffect;}
+
+    virtual void update() {}
 };
 
 #endif

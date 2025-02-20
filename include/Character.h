@@ -2,6 +2,7 @@
 #define CHARACTER_H
 #include <string>
 #include "GameObject.h"
+#include "Card.h"
 
 class Character : public GameObject
 {
@@ -10,26 +11,21 @@ protected:
     int health;
     int respect;
     int magic;
+
 public: 
     Character(const std::string &n, int h, int r) : name(n), health(h), respect (r), magic (0) {}
-    virtual void ApplyCardEffect (int healthEffect, int respectEffect, int magicEffect) 
+    void ApplyCardEffect (const Card& card, int& globalMagic) 
     {
-        int multiplier = 1;
-        if (magic == 5)
-        {
-            multiplier = 2;
-            magic = 0;
-        }
-        health += healthEffect * multiplier;
-        respect += respectEffect * multiplier;
-        magic += magicEffect * multiplier;
+        health += card.getHealthEffect();
+        respect += card.getRespectEffect();
+        magic += card.getMagicEffect();
     }
     virtual bool IsAlive () const 
     { 
         return health > 0;
     }
 
-    void update() override {}
+    void update() override = 0;
 
     virtual ~Character() = default;
 };

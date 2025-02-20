@@ -9,6 +9,7 @@ class Bot : public Character
 {
 private:
     Difficulty difficulty;
+    
 public:
     Bot(const std::string &n, int h, int r, Difficulty diff) : Character(n, h, r), difficulty(diff) {}
 
