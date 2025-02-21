@@ -5,16 +5,10 @@
 
 class Player : public Character
 {
-    Player(const std::string &n, int h, int r) : Character(n, h, r) {}
-    void ChooseCard () 
-    {
-        std::cout << "Игрок " << name << "выбирает карту ";
-    }
+    Player(const std::string &n, int h, int r);
+    void ChooseCard ();
 
-    virtual void update() override 
-    {
-        ChooseCard();
-    }
+    virtual void update() override;
 };
 
 #endif

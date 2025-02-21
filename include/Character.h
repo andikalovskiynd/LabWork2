@@ -6,32 +6,22 @@
 
 class Character : public GameObject
 {
-protected:
+private:
     std::string name;
     int health;
     int respect;
     int magic;
 
 public: 
-    Character(const std::string &n, int h, int r) : name(n), health(h), respect (r), magic (0) {}
-    void ApplyCardEffect (const Card& card, int& globalMagic) 
-    {
-        health += card.getHealthEffect();
-        respect += card.getRespectEffect();
-        magic += card.getMagicEffect();
-        if (health <=0)
-        {
-            health = 0; // add death 
-        }
-    }
-    virtual bool IsAlive () const 
-    { 
-        return health > 0;
-    }
+    Character(const std::string &n, int h, int r);
+    void ApplyCardEffect (const Card& card, int& globalMagic);
+    virtual bool IsAlive () const;
 
     void update() override = 0;
-
     virtual ~Character() = default;
+    std::string getName () const { return name; }
+    int getHealth() const { return health; }
+    int getRespect() const { return respect; }
 };
 
 #endif
