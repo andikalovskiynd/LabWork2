@@ -5,7 +5,8 @@
 
 class Player : public Character
 {
-    Player(const std::string &n, int h, int r);
+public:
+    Player(const std::string &n, int h, int r) : Character(n, h, r) {};
     void ChooseCard ();
 
     virtual void update() override;
