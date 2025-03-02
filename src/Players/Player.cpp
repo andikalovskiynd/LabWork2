@@ -13,6 +13,11 @@ Card Player::playCard(int index)
     }
 }
 
+Card Player::takeTurn()
+{
+    return playCard(int index);
+}
+
 void Player::drawCard(Deck& deck)
 {
     if (!deck.isEmpty()) { hand.push_back(deck.drawCard()); }
