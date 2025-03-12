@@ -1,18 +1,23 @@
-#include "../src/Game/State/Playing/PlayingState.h"
-#include "../src/Game/State/End/EndState.h"
-#include "../src/Deck/Deck.h"
+#include "Game/State/Playing/PlayingState.h"
+#include "Deck/Deck.h"
+#include "Game/GameManager/GameManager.h"
 
-PlayingState::PlayingState(std::vector<Character*>& players)
+PlayingState::PlayingState(std::vector<Character*>& p, Deck& d) : deck(d)
 {
-    turnManager = new TurnManager(players);
+    turnManager = new TurnManager(p);
+}
+
+PlayingState::~PlayingState()
+{
+    delete turnManager;
 }
 
 void PlayingState::updateState(GameManager& game)
 {
     processTurn(game);
-    if (isGameOver)
+    if (isGameOver())
     {
-        game.setState(new EndGameState());
+        game.setState(new EndGameState(turnManager->getCurrentPlayer()));
     }
 }
 
@@ -24,10 +29,7 @@ void PlayingState::processTurn(GameManager& game)
     Card playedCard = currentPlayer->takeTurn();
     std::cout << currentPlayer->getName() << " сыграл карту " << playedCard.getName() << std::endl;
 
-    Character* opponent = (turnManager->getCurrentPlayer() == turnManager->getCurrentPlayer())
-        ? turnManager->getCurrentPlayer()
-        : turnManager->getCurrentPlayer(); //chto eto
-    opponent->ApplyCardEffect(playedCard);
+    currentPlayer->ApplyCardEffect(playedCard);
 
     if (currentPlayer->needsCards())
     {
@@ -39,5 +41,19 @@ void PlayingState::processTurn(GameManager& game)
 
 bool PlayingState::isGameOver()
 {
-    koki 
+    Character* currentPlayer = turnManager->getCurrentPlayer();
+    if (currentPlayer->IsAlive())
+    {
+        return false;
+    }
+}
+
+void PlayingState::enterState(GameManager& game)
+{
+    std::cout << "Вход в игровое пространство.." << std::endl;
+}
+
+void PlayingState::exitState(GameManager& game)
+{
+    std::cout << "Игра окончена!" << std::endl;
 }

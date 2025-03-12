@@ -1,4 +1,4 @@
-#include "../src/Players/Character.h"
+#include "Players/Character.h"
 
 Character::Character(const std::string &n, int h, int r) : name(n), health(h), respect (r) {}
 

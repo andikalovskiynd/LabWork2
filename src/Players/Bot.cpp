@@ -1,4 +1,4 @@
-#include "../src/Players/Bot.h"
+#include "Players/Bot.h"
 
 Bot::Bot(const std::string &n, int h, int r) : Character(n, h, r) {}
 
@@ -32,4 +32,15 @@ Card Bot::makeStupidMove()
 {
     Card chosenCard = hand.front();
     hand.erase(hand.begin());
+    return chosenCard;
+}
+
+Card Bot::takeTurn()
+{
+    return makeStupidMove();
+}
+
+void Bot::drawInitCards(Deck& deck)
+{
+    drawCard(deck);
 }

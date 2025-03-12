@@ -1,9 +1,9 @@
 #ifndef ENDSTATE_H
 #define ENDSTATE_H
 
-#include "../src/Game/State/Gamestate.h"
-#include "../src/Game/GameManager/GameManager.h"
-#include "../src/Players/Character.h"
+#include "Game/State/Gamestate.h"
+#include "Game/GameManager/GameManager.h"
+#include "Players/Character.h"
 
 class EndGameState : public GameState
 {

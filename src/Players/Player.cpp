@@ -1,21 +1,31 @@
-#include "../src/Players/Player.h"
+#include "Players/Player.h"
 
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
 // interactions with cards
 Card Player::playCard(int index)
 {
-    if (index >= 0 && index < hand.size())
+    if (index >= 0 && index < static_cast<int>(hand.size()))
     {
         Card chosenCard = hand[index];
         hand.erase(hand.begin() + index);
+        return chosenCard;
+    }
+    else 
+    {
+        Card chosenCard = hand.front();
+        hand.erase(hand.begin());
+        std::cout << "Вы выбрали карту, которой у вас нет. Думали обмануть систему? Смеется тот, кто смеется последний..." << std::endl;
         return chosenCard;
     }
 }
 
 Card Player::takeTurn()
 {
-    return playCard(int index);
+    int index;
+    std::cout << "Введите индекс карты" << std::endl;
+    std::cin >> index;
+    return playCard(index);
 }
 
 void Player::drawCard(Deck& deck)
@@ -37,4 +47,9 @@ std::vector<Card> Player::getHand()
 void Player::clearHand()
 {
     hand.clear();
+}
+
+void Player::drawInitCards(Deck& deck)
+{
+    drawCard(deck);
 }

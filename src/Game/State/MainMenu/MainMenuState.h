@@ -1,6 +1,7 @@
 #ifndef MAINMENUSTATE_H
 #define MAINMENUSTATE_H
-#include "../src/Game/State/Gamestate.h"
+#include "Game/State/Gamestate.h"
+#include "Game/GameManager/GameManager.h"
 #include <iostream>
 
 class MainMenuState : public GameState

@@ -1,4 +1,4 @@
-#include "../src/Game/GameManager/GameManager.h"
+#include "Game/GameManager/GameManager.h"
 #include <iostream>
 
 GameManager::GameManager(Deck& d) : currentState(nullptr), deck(d) {}

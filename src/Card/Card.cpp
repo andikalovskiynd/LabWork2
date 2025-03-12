@@ -2,6 +2,8 @@
 
 Card::Card(const std::string &n, int hEffect, int rEffect, int mEffect) : name(n), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect) {}
 
+Card::~Card() = default;
+
 const std::string& Card::getName()
 {
     return name;

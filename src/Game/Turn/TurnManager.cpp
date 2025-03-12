@@ -1,11 +1,11 @@
-#include "../src/Game/Turn/TurnManager.h"
+#include "Game/Turn/TurnManager.h"
 #include <iostream>
 
 TurnManager::TurnManager(const std::vector<Character*>& playerList) : players(playerList), currentPlayerIndex(0) {}
 
 void TurnManager::startTurns()
 {
-    while (!isGameOver)
+    while (!isGameOver())
     {
         Character* currentPlayer = getCurrentPlayer();
         std::cout << "Ход " << currentPlayer->getName() << std::endl;
@@ -16,7 +16,7 @@ void TurnManager::startTurns()
             std::cout << currentPlayer->getName() << " проиграл" << std::endl;
             break;
         }
-        
+
         nextTurn();
     }
 }

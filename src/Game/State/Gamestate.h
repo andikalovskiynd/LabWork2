@@ -1,5 +1,8 @@
+#include "Game/GameManager/GameManager.h"
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
+
+class GameManager;
 
 class GameState 
 {

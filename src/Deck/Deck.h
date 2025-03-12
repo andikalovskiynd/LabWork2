@@ -2,7 +2,7 @@
 #define DECK_H
 #include <vector>
 #include <random>
-#include "../src/Card/Card.h"
+#include "../src/Card/Card.h" 
 
 class Deck
 {
@@ -10,11 +10,11 @@ private:
     std::vector<Card> cards;
 
 public:
-    Deck();
-    void shuffle();
-    Card drawCard();
-    bool isEmpty();
-    void resetDeck(const std::vector<Card> newCards);
+    Deck(); // constructor
+    void shuffle(); // shuffles all cards in deck
+    Card drawCard(); // method to take card from the dack
+    bool isEmpty(); // check if is deck is empty
+    void resetDeck(const std::vector<Card> newCards); // refill card deck
 };
 
 #endif

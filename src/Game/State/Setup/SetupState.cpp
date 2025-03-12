@@ -1,4 +1,4 @@
-#include "../src/Game/State/Setup/SetupState.h"
+#include "Game/State/Setup/SetupState.h"
 
 SetupState::SetupState (Deck& d, std::vector<Character*> p) : deck(d), players(p) {}
 

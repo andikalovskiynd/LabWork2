@@ -1,7 +1,7 @@
 #ifndef TURNMANAGER_H
 #define TURNMANAGER_H
 #include <vector>
-#include "../src/Players/Character.h"
+#include "Players/Character.h"
 
 class TurnManager 
 {

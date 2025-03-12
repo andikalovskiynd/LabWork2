@@ -1,5 +1,5 @@
-#include "../src/Game/State/End/EndGameState.h"
-#include "../src/Game/State/Setup/SetupState.h"
+#include "Game/State/End/EndGameState.h"
+#include "Game/State/Setup/SetupState.h"
 #include <iostream>
 
 EndGameState::EndGameState(Character* w) : winner(w) {}
@@ -18,6 +18,7 @@ void EndGameState::updateState(GameManager& game)
 {
     int choice;
     std::cout << "Введите 0, чтобы выйти" << std::endl;
+    std::cin >> choice;
     if (choice == 0)
     {
         game.setState(nullptr);
