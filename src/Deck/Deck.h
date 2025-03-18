@@ -2,7 +2,7 @@
 #define DECK_H
 #include <vector>
 #include <random>
-#include "../src/Card/Card.h" 
+#include "Card/Card.h" 
 
 class Deck
 {

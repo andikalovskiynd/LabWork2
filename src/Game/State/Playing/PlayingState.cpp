@@ -29,7 +29,10 @@ void PlayingState::processTurn(GameManager& game)
     Card playedCard = currentPlayer->takeTurn();
     std::cout << currentPlayer->getName() << " сыграл карту " << playedCard.getName() << std::endl;
 
-    currentPlayer->ApplyCardEffect(playedCard);
+    currentPlayer->ApplyCardEffect(playedCard, game);
+
+    std::cout << "Пул магии: " << game.getMagicPool() << std::endl;
+    std::cout << "Здоровье игрока " << currentPlayer->getHealth() << std::endl;
 
     if (currentPlayer->needsCards())
     {
@@ -46,6 +49,7 @@ bool PlayingState::isGameOver()
     {
         return false;
     }
+    return true;
 }
 
 void PlayingState::enterState(GameManager& game)

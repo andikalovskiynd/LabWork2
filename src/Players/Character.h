@@ -3,6 +3,7 @@
 #include <string>
 #include "Card/Card.h"
 #include "Deck/Deck.h"
+#include "Game/GameManager/GameManager.h"
 
 class Character
 {
@@ -13,7 +14,7 @@ private:
 
 public: 
     Character(const std::string &n, int h, int r); // constructor
-    ~Character() = default; // destructor
+    virtual ~Character() = default; // destructor
     // getters
     std::string getName (); // getter for character name
     int getHealth(); // getter for character health
@@ -25,7 +26,7 @@ public:
     void changeRespect(int amount); // increase or reduce respect of character
 
     // else
-    void ApplyCardEffect (const Card& card); // apply card effect using change functions
+    void ApplyCardEffect (const Card& card, GameManager& game); // apply card effect 
     virtual Card takeTurn() = 0; // to take a turn. used just to inherit because ways of bot's and player's turns are slightly different
     virtual void drawInitCards(Deck& deck) = 0; // only to inherit
     virtual bool needsCards() = 0; // only to inherit

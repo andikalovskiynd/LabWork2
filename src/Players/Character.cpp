@@ -34,8 +34,25 @@ void Character::changeRespect(int amount)
 }
 
 // else 
-void Character::ApplyCardEffect (const Card& card)
+void Character::ApplyCardEffect (const Card& card, GameManager& game)
 {
-    changeHealth(card.getHealthEffect());
-    changeRespect(card.getRespectEffect());
+    game.setCurrentPlayer(this);
+    game.updateMagicPool(card.getMagicEffect());
+    
+    bool isAmplified = game.shouldAmplify();
+    int h = card.getHealthEffect();
+    int r = card.getRespectEffect();
+    int m = card.getMagicEffect();
+
+    if(isAmplified)
+    {
+        h *= 2;
+        r *= 2;
+        m *= 2;
+        game.resetMagicPool();
+    }
+
+    this->changeHealth(h);
+    this->changeRespect(r);
+    game.updateMagicPool(m);
 }
