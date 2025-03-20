@@ -1,4 +1,8 @@
 #include "Players/Character.h"
+#include "Game/Spirit/Evil/EvilSpirit.h"
+#include "Game/Spirit/Good/GoodSpirit.h"
+#include "Game/Spirit/Wizard/MagicWizard.h"
+#include <iostream>
 
 Character::Character(const std::string &n, int h, int r) : name(n), health(h), respect (r) {}
 
@@ -51,8 +55,49 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         m *= 2;
         game.resetMagicPool();
     }
-
+    
     this->changeHealth(h);
     this->changeRespect(r);
     game.updateMagicPool(m);
+
+    switch(card.getType())
+    {
+        case Card::Type::ATTACK:
+        {
+            if(rand() % 100 < 7)
+            {
+                game.addSpirit(new EvilSpirit(this));
+            }
+            break;
+        }
+        
+        case Card::Type::HEAL:
+        {
+            if(rand() % 100 < 7)
+            {
+                game.addSpirit(new GoodSpirit(this));
+            }
+            break;
+        }
+
+        case Card::Type::MAGIC:
+        {
+            if(rand() % 100 < 7)
+            {
+                game.addSpirit(new MagicWizard(this, game));
+            }
+            break;
+        }
+
+        case Card::Type::RESPECT:
+        {
+            if(rand() % 100 < 2)
+            {
+                std::cout << "Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался.." << std::endl;
+            }
+            break;
+        }
+
+        default: break;
+    }
 }

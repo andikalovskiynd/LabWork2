@@ -42,5 +42,11 @@ Card Bot::takeTurn()
 
 void Bot::drawInitCards(Deck& deck)
 {
-    drawCard(deck);
+    for(int i = 0; i < 5; ++i)
+    {
+        if(!deck.isEmpty())
+        {
+            hand.push_back(deck.drawCard());
+        }
+    }
 }

@@ -4,6 +4,7 @@
 
 class EvilSpirit : public Spirit
 {
+public:
     EvilSpirit(Character* target);
     void applyEffect() override;
 };

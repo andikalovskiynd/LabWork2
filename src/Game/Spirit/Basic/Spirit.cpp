@@ -12,3 +12,9 @@ Character* Spirit::getTarget()
 {
     return target;
 }
+
+bool Spirit::update()
+{
+    --duration;
+    return duration > 0;
+}

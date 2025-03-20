@@ -2,9 +2,14 @@
 #include <random>
 #include "Deck/Deck.h"
 
-Deck::Deck()
+Deck::Deck() = default;
+
+Deck::~Deck()
 {
-    // later
+    for (Card* card : cards)
+    {
+        delete card;
+    }
 }
 
 void Deck::shuffle()
@@ -14,11 +19,11 @@ void Deck::shuffle()
     std::shuffle(cards.begin(), cards.end(), g);
 }
 
-Card Deck::drawCard()
+Card* Deck::drawCard()
 {
     if (!cards.empty())
     {
-        Card drawnCard = cards.back();
+        Card* drawnCard = cards.back();
         cards.pop_back();
         return drawnCard;
     }
@@ -30,7 +35,7 @@ bool Deck::isEmpty()
     return cards.empty();
 }
 
-void Deck::resetDeck (std::vector<Card> newCards)
+void Deck::resetDeck(const std::vector<Card*>& newCards)
 {
     cards = newCards;
     shuffle();

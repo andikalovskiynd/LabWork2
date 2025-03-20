@@ -7,14 +7,14 @@
 class Deck
 {
 private:
-    std::vector<Card> cards;
+    std::vector<Card*> cards;
 
 public:
     Deck(); // constructor
     void shuffle(); // shuffles all cards in deck
-    Card drawCard(); // method to take card from the dack
+    Card* drawCard(); // method to take card from the dack
     bool isEmpty(); // check if is deck is empty
-    void resetDeck(const std::vector<Card> newCards); // refill card deck
+    void resetDeck(const std::vector<Card*>& newCards); // refill card deck
 };
 
 #endif

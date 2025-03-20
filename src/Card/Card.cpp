@@ -1,6 +1,6 @@
-#include "Card.h"
+#include "Card/Card.h"
 
-Card::Card(const std::string &n, int hEffect, int rEffect, int mEffect) : name(n), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect) {}
+Card::Card(const std::string &n, int hEffect, int rEffect, int mEffect, Type t) : name(n), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect), cardType(t) {}
 
 Card::~Card() = default;
 
@@ -22,4 +22,9 @@ int Card::getRespectEffect() const
 int Card::getMagicEffect() const
 {
     return baseMagicEffect;
+}
+
+Card::Type Card::getType() const
+{
+    return cardType;
 }

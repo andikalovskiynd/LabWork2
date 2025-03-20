@@ -15,6 +15,7 @@ public:
     virtual void applyEffect();
     bool decreaseDuration();
     Character* getTarget();
+    bool update();
 };
 
 #endif

@@ -30,7 +30,10 @@ Card Player::takeTurn()
 
 void Player::drawCard(Deck& deck)
 {
-    if (!deck.isEmpty()) { hand.push_back(deck.drawCard()); }
+    if (!deck.isEmpty()) 
+    {
+        hand.push_back(deck.drawCard()); 
+    }
 }
 
 bool Player::needsCards()
@@ -51,5 +54,11 @@ void Player::clearHand()
 
 void Player::drawInitCards(Deck& deck)
 {
-    drawCard(deck);
+    for(int i = 0; i < 5; ++i)
+    {
+        if(!deck.isEmpty())
+        {
+            hand.push_back(deck.drawCard());
+        }
+    }
 }

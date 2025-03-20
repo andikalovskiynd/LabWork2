@@ -10,6 +10,11 @@ GameManager::~GameManager()
         currentState->exitState(*this);
         delete currentState;
     }
+    
+    for(Spirit* spirit : activeSpirits)
+    {
+        delete spirit;
+    }
 }
 
 void GameManager::setState(GameState* state)
@@ -95,4 +100,27 @@ void GameManager::resetMagicPool()
 Character* GameManager::getCurrentPlayer()
 {
     return currentPlayer;
+}
+
+void GameManager::addSpirit(Spirit* spirit)
+{
+    activeSpirits.push_back(spirit);
+}
+
+void GameManager::processSpirits()
+{
+    for(int i = 0; i < activeSpirits.size();)
+    {
+        activeSpirits[i]->applyEffect();
+
+        if(!activeSpirits[i]->update())
+        {
+            delete activeSpirits[i];
+            activeSpirits.erase(activeSpirits.begin() + i);
+        }
+        else
+        {
+            ++i;
+        }
+    }
 }

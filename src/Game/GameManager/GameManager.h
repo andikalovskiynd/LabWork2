@@ -3,6 +3,7 @@
 #include "Game/State/Gamestate.h"
 #include "Deck/Deck.h"
 #include "Players/Character.h"
+#include "Game/Spirit/Basic/Spirit.h"
 #include <vector>
 
 class GameManager
@@ -13,6 +14,7 @@ private:
     std::vector<Character*> players;
     int magicPool = 0;
     Character* currentPlayer;
+    std::vector<Spirit*> activeSpirits; 
 
 public: 
     GameManager(Deck& d);
@@ -29,6 +31,8 @@ public:
     void updateMagicPool(int effect);
     bool shouldAmplify();
     void resetMagicPool();
+    void addSpirit(Spirit* spirit);
+    void processSpirits();
 };
 
 #endif

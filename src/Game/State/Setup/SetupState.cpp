@@ -1,16 +1,18 @@
 #include "Game/State/Setup/SetupState.h"
 #include "Players/Player.h"
 #include "Players/Bot.h"
+#include "Card/Defined.cpp"
 #include <vector>
 
 SetupState::SetupState (Deck& d, std::vector<Character*> p) : deck(d), players(p) {}
 
 void SetupState::enterState(GameManager& game)
 {
-    deck.shuffle();
+    std::vector<Card*> collection = createCollection();
+    game.getDeck().resetDeck(collection);
     initPlayers();
     initHands();
-    game.setState(new PlayingState(players, deck));
+    game.setState(new PlayingState(players, game.getDeck()));
 }
 
 void SetupState::updateState(GameManager& game) {}
