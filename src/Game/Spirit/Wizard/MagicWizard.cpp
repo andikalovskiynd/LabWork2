@@ -1,4 +1,4 @@
-#include "Game/Spirit/Wizard/MagicWizard.h"
+#include "Game/Spirit/MagicWizard.h"
 #include <iostream>
 
 MagicWizard::MagicWizard(Character* target, GameManager& g) : Spirit(target), game(g) {}

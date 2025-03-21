@@ -1,4 +1,4 @@
-#include "Game/Spirit/Basic/Spirit.h"
+#include "Game/Spirit/Spirit.h"
 
 Spirit::Spirit(Character* t) : target(t) {}
 Spirit::~Spirit() = default;

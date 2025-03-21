@@ -1,5 +1,5 @@
-#include "Game/State/End/EndGameState.h"
-#include "Game/State/Setup/SetupState.h"
+#include "Game/State/EndGameState.h"
+#include "Game/State/SetupState.h"
 #include <iostream>
 
 EndGameState::EndGameState(Character* w) : winner(w) {}

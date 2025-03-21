@@ -1,4 +1,4 @@
-#include "Game/Spirit/Evil/EvilSpirit.h"
+#include "Game/Spirit/EvilSpirit.h"
 #include <iostream>
 
 EvilSpirit::EvilSpirit(Character* target) : Spirit(target) {}

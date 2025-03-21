@@ -1,7 +1,7 @@
 #include "Players/Character.h"
-#include "Game/Spirit/Evil/EvilSpirit.h"
-#include "Game/Spirit/Good/GoodSpirit.h"
-#include "Game/Spirit/Wizard/MagicWizard.h"
+#include "Game/Spirit/EvilSpirit.h"
+#include "Game/Spirit/GoodSpirit.h"
+#include "Game/Spirit/MagicWizard.h"
 #include <iostream>
 
 Character::Character(const std::string &n, int h, int r) : name(n), health(h), respect (r) {}

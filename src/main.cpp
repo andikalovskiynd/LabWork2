@@ -1,6 +1,6 @@
 #include "Deck/Deck.h"
 #include "Game/GameManager/GameManager.h"
-#include "Game/State/MainMenu/MainMenuState.h"
+#include "Game/State/MainMenuState.h"
 #include <iostream>
 
 int main()

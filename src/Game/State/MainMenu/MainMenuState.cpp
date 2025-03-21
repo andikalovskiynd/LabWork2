@@ -1,7 +1,7 @@
-#include "Game/State/MainMenu/MainMenuState.h"
+#include "Game/State/MainMenuState.h"
 #include "Game/GameManager/GameManager.h"
 #include "Game/State/Gamestate.h"
-#include "Game/State/Setup/SetupState.h"
+#include "Game/State/SetupState.h"
 
 void MainMenuState::enterState(GameManager& game)
 {

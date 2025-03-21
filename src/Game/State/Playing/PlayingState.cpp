@@ -1,4 +1,4 @@
-#include "Game/State/Playing/PlayingState.h"
+#include "Game/State/PlayingState.h"
 #include "Deck/Deck.h"
 #include "Game/GameManager/GameManager.h"
 
@@ -26,10 +26,10 @@ void PlayingState::processTurn(GameManager& game)
     Character* currentPlayer = turnManager->getCurrentPlayer();
     std::cout << "Ходит " << currentPlayer->getName() << std::endl;
 
-    Card playedCard = currentPlayer->takeTurn();
-    std::cout << currentPlayer->getName() << " сыграл карту " << playedCard.getName() << std::endl;
+    Card* playedCard = currentPlayer->takeTurn();
+    std::cout << currentPlayer->getName() << " сыграл карту " << *playedCard.getName() << std::endl;
 
-    currentPlayer->ApplyCardEffect(playedCard, game);
+    currentPlayer->ApplyCardEffect(*playedCard, game);
 
     std::cout << "Пул магии: " << game.getMagicPool() << std::endl;
     std::cout << "Здоровье игрока " << currentPlayer->getHealth() << std::endl;
