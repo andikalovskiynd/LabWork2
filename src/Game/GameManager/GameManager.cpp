@@ -1,30 +1,13 @@
 #include "Game/GameManager/GameManager.h"
+#include <utility>
 #include <iostream>
+#include <memory>
 
 GameManager::GameManager(Deck& d) : currentState(nullptr), deck(d) {}
 
-GameManager::~GameManager()
+void GameManager::setState(std::unique_ptr<GameState> state)
 {
-    if (currentState)
-    {
-        currentState->exitState(*this);
-        delete currentState;
-    }
-    
-    for(Spirit* spirit : activeSpirits)
-    {
-        delete spirit;
-    }
-}
-
-void GameManager::setState(GameState* state)
-{
-    if (currentState)
-    {
-        currentState->exitState(*this);
-        delete currentState;
-    }
-    currentState = state;
+    currentState = std::move(state);
     if (currentState)
     {
         currentState->enterState(*this);
@@ -39,7 +22,7 @@ void GameManager::run()
     }
 }
 
-std::vector<Character*> GameManager::getPlayers()
+std::vector<std::unique_ptr<Character>> GameManager::getPlayers() const
 {
     return players;
 }
@@ -52,6 +35,7 @@ Deck& GameManager::getDeck()
 void GameManager::clearPlayers()
 {
     players.clear();
+    currentPlayer = nullptr;
 }
 
 void GameManager::setCurrentPlayer(Character* player)
@@ -59,14 +43,27 @@ void GameManager::setCurrentPlayer(Character* player)
     currentPlayer = player;
 }
 
-int GameManager::getMagicPool()
+int GameManager::getMagicPool() const
 {
     return magicPool;
 }
 
 void GameManager::updateMagicPool(int effect)
 {
-    if (currentPlayer == players[0])
+    std::cout << "DEBUG: Entering updateMagicPool. Effect: " << effect << std::endl;
+
+    if (players.empty()) {
+         std::cerr << "FATAL ERROR: GameManager::updateMagicPool - players container is empty!" << std::endl;
+         abort();
+    }
+
+    if (currentPlayer == nullptr) {
+        std::cerr << "FATAL ERROR: GameManager::updateMagicPool - currentPlayer is null!" << std::endl;
+        abort();
+    }
+
+    std::cout << "DEBUG: Comparing currentPlayer (" << currentPlayer << ") with players[0].get() (" << players[0].get() << ")" << std::endl;
+    if (currentPlayer == players[0].get())
     {
         magicPool -= effect;
     }
@@ -76,17 +73,22 @@ void GameManager::updateMagicPool(int effect)
     }
 }
 
-bool GameManager::shouldAmplify()
+bool GameManager::shouldAmplify() const
 {
-    if(currentPlayer == players[0] && magicPool <= -10)
+    if (players.size() < 2 || currentPlayer == nullptr) 
+    {
+        return false;
+    }
+
+    if (currentPlayer == players[0].get() && magicPool <= -10)
     {
         return true;
     }
-    else if(currentPlayer == players[1] && magicPool >= 10)
+    else if (currentPlayer == players[1].get() && magicPool >= 10)
     {
         return true;
     }
-    else 
+    else
     {
         return false;
     }
@@ -102,25 +104,51 @@ Character* GameManager::getCurrentPlayer()
     return currentPlayer;
 }
 
-void GameManager::addSpirit(Spirit* spirit)
+void GameManager::addSpirit(std::unique_ptr<Spirit> spirit)
 {
-    activeSpirits.push_back(spirit);
+    if (spirit)
+    {
+        activeSpirits.push_back(std::move(spirit));
+    }
+    else
+    {
+        std::cerr << "Error: attempted to add empty spirit" << std::endl;
+    }
 }
+
 
 void GameManager::processSpirits()
 {
-    for(int i = 0; i < activeSpirits.size();)
+    for (const auto& spiritPtr : activeSpirits)
     {
-        activeSpirits[i]->applyEffect();
+        if (spiritPtr)
+        {
+            spiritPtr->applyEffect();
+        }
+    }
 
-        if(!activeSpirits[i]->update())
+    std::vector<std::unique_ptr<Spirit>> nextActiveSpirits;
+    nextActiveSpirits.reserve(activeSpirits.size());
+
+    for (auto& spiritPtr : activeSpirits) 
+    {
+        if (spiritPtr && spiritPtr->update()) 
         {
-            delete activeSpirits[i];
-            activeSpirits.erase(activeSpirits.begin() + i);
+            nextActiveSpirits.push_back(std::move(spiritPtr));
         }
-        else
-        {
-            ++i;
-        }
+    }
+
+    activeSpirits = std::move(nextActiveSpirits);
+}
+
+void GameManager::addPlayer(std::unique_ptr<Character> player)
+{
+    if (player)
+    {
+        players.push_back(std::move(player));
+    }
+    else
+    {
+        std::cerr << "Error: attempted to add empty player" << std::endl;
     }
 }

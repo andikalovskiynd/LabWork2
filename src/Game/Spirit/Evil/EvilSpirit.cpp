@@ -1,7 +1,7 @@
 #include "Game/Spirit/EvilSpirit.h"
 #include <iostream>
 
-EvilSpirit::EvilSpirit(Character* target) : Spirit(target) {}
+EvilSpirit::EvilSpirit(Character* target) : Spirit(target, 1) {}
 
 void EvilSpirit::applyEffect()
 {

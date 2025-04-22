@@ -3,27 +3,33 @@
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
 // interactions with cards
-Card* Player::playCard(int index)
+std::unique_ptr<Card> Player::playCard(int index)
 {
     if (index >= 0 && index < static_cast<int>(hand.size()))
     {
-        Card* chosenCard = hand[index];
+        std::unique_ptr<Card> chosenCard = std::move(hand[index]);
         hand.erase(hand.begin() + index);
         return chosenCard;
     }
-    else 
+
+    else
     {
-        Card* chosenCard = hand.front();
-        hand.erase(hand.begin());
         std::cout << "Вы выбрали карту, которой у вас нет. Думали обмануть систему? Смеется тот, кто смеется последний..." << std::endl;
-        return chosenCard;
+        if (!hand.empty())
+        {
+            std::unique_ptr<Card> chosenCard = std::move(hand.front());
+            hand.erase(hand.begin());
+            return chosenCard;
+        }
+        return nullptr;
     }
 }
 
-Card* Player::takeTurn()
+std::unique_ptr<Card> Player::takeTurn()
 {
     int index;
-    std::cout << "Введите индекс карты" << std::endl;
+    std::cout << "Введите индекс карты: " << std::endl;
+    // TODO: Добавить надежную проверку ввода (не число, выход за границы)
     std::cin >> index;
     return playCard(index);
 }
@@ -42,7 +48,7 @@ bool Player::needsCards()
 }
 
 // interactions with hand
-std::vector<Card*> Player::getHand()
+std::vector<std::unique_ptr<Card>> Player::getHand()
 {
     return hand;
 }

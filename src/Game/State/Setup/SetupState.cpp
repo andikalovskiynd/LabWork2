@@ -4,21 +4,21 @@
 #include "Card/Defined.h"
 #include <vector>
 
-SetupState::SetupState (Deck& d, std::vector<Character*> p) : deck(d), players(p) {}
+SetupState::SetupState (Deck& d) : deck(d) {}
 
 void SetupState::enterState(GameManager& game)
 {
-    std::vector<Card*> collection = createCollection();
-    game.getDeck().resetDeck(collection);
-    initPlayers();
-    initHands();
-    game.setState(new PlayingState(players, game.getDeck()));
+    std::vector<std::unique_ptr<Card>> collection = createCollection();
+    game.getDeck().resetDeck(std::move(collection));
+    initPlayers(game);
+    initHands(game);
+    game.setState(std::make_unique<PlayingState>(game));
 }
 
-void SetupState::updateState(GameManager& game) {}
-void SetupState::exitState(GameManager& game) {}
+void SetupState::updateState([[maybe_unused]] GameManager& game) {}
+void SetupState::exitState([[maybe_unused]] GameManager& game) {}
 
-void SetupState::initPlayers()
+void SetupState::initPlayers(GameManager& game)
 {
     std::string playerName;
     int difficulty;
@@ -26,34 +26,36 @@ void SetupState::initPlayers()
     std::cout << "Введите свое имя" << std::endl;
     std::cin >> playerName;
 
-    Character* human = new Player(playerName, 20, 10);
-    players.push_back(human);
+    std::unique_ptr<Character> human = std::make_unique<Player>(playerName, 20, 10);
+    game.addPlayer(std::move(human));
 
     std::cout << "Выберите сложность (1-3 от легкого к сложному)" << std::endl;
     std::cin >> difficulty;
 
+    std::unique_ptr<Character> bot;
     Difficulty botDiff;
     switch (difficulty)
     {
-        case 1: botDiff = Difficulty::EASY; break;
-        case 2: botDiff = Difficulty::MEDIUM; break;
-        case 3: botDiff = Difficulty::HARD; break;
+        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Valera", 15, 5); break;
+        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Anton", 20, 10); break;
+        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Bogdan", 25, 20); break;
         default: 
             std::cout << "Некорректный ввод. Выбрана легкая сложность. " << std::endl;
             botDiff = Difficulty::EASY;
+            bot = std::make_unique<Bot>("Valera", 15, 5);
+            break;
     }
-
-    Character* bot = new Bot("AI", 20, 10);
-    players.push_back(bot);
+    game.addPlayer(std::move(bot));
 }
 
-void SetupState::initHands()
+void SetupState::initHands(GameManager& game)
 {
-    for (Character* player : players)
+    const auto& playersInGame = game.getPlayers();
+    for (const auto& playerPtr : playersInGame)
     {
-        for (int i = 0; i <=5; ++i)
+        if (playerPtr) 
         {
-            player->drawInitCards(deck);
+            playerPtr->drawInitCards(deck);
         }
     }
 }

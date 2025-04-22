@@ -1,23 +1,11 @@
 #include "Game/Turn/TurnManager.h"
 #include <iostream>
 
-TurnManager::TurnManager(const std::vector<Character*>& playerList) : players(playerList), currentPlayerIndex(0) {}
-
-void TurnManager::startTurns()
+TurnManager::TurnManager(const std::vector<std::unique_ptr<Character>>& playerList) : players(playerList), currentPlayerIndex(0)
 {
-    while (!isGameOver())
+    if (players.empty()) 
     {
-        Character* currentPlayer = getCurrentPlayer();
-        std::cout << "Ход " << currentPlayer->getName() << std::endl;
-        currentPlayer->takeTurn();
-
-        if (!currentPlayer->IsAlive())
-        {
-            std::cout << currentPlayer->getName() << " проиграл" << std::endl;
-            break;
-        }
-
-        nextTurn();
+        throw std::runtime_error("TurnManager initialized with empty player list");
     }
 }
 

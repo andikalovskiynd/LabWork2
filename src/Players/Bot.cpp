@@ -17,7 +17,7 @@ bool Bot::needsCards()
 }
 
 // interactions with hand
-std::vector<Card*> Bot::getHand()
+std::vector<std::unique_ptr<Card>> Bot::getHand()
 {
     return hand;
 }
@@ -28,14 +28,18 @@ void Bot::clearHand()
 }
 
 // STUPID MOVE (JUST FOR NOW)
-Card* Bot::makeStupidMove()
+std::unique_ptr<Card> Bot::makeStupidMove()
 {
-    Card* chosenCard = hand.front();
-    hand.erase(hand.begin());
-    return chosenCard;
+    if (!hand.empty())
+    {
+        std::unique_ptr<Card> chosenCard = std::move(hand.front());
+        hand.erase(hand.begin());
+        return chosenCard;
+    }
+    return nullptr;
 }
 
-Card* Bot::takeTurn()
+std::unique_ptr<Card> Bot::takeTurn()
 {
     return makeStupidMove();
 }

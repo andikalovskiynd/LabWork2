@@ -6,6 +6,7 @@
 
 class MainMenuState : public GameState
 {
+public:
     MainMenuState() = default;
     void enterState(GameManager& game) override; // override of virtual methods. sense of those are in the names. 
     void updateState(GameManager& game) override; // transition to 'SetupState' or leaving the game

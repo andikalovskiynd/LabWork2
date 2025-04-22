@@ -2,6 +2,7 @@
 #define DECK_H
 #include <vector>
 #include <random>
+#include <memory>
 #include "Card/Card.h" 
 
 class Card;
@@ -9,14 +10,15 @@ class Card;
 class Deck
 {
 private:
-    std::vector<Card*> cards;
+    std::vector<std::unique_ptr<Card>> cards;
 
 public:
     Deck(); // constructor
+    ~Deck() = default;
     void shuffle(); // shuffles all cards in deck
-    Card* drawCard(); // method to take card from the dack
+    std::unique_ptr<Card> Deck::drawCard(); // method to take card from the dack
     bool isEmpty(); // check if is deck is empty
-    void resetDeck(const std::vector<Card*>& newCards); // refill card deck
+    void resetDeck(std::vector<std::unique_ptr<Card>> newCards); // refill card deck
 };
 
 #endif

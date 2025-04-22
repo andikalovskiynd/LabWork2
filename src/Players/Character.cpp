@@ -7,23 +7,23 @@
 Character::Character(const std::string &n, int h, int r) : name(n), health(h), respect (r) {}
 
 // getters
-int Character::getHealth() 
+int Character::getHealth() const
 {
     return health; 
 }
 
-int Character::getRespect() 
+int Character::getRespect() const
 {
     return respect;
 }
 
-std::string Character::getName () 
+std::string Character::getName () const
 {
     return name;
 }
 
 // condition
-bool Character::IsAlive ()
+bool Character::IsAlive () const
 {
     return health > 0;
 }
@@ -46,19 +46,16 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
     bool isAmplified = game.shouldAmplify();
     int h = card.getHealthEffect();
     int r = card.getRespectEffect();
-    int m = card.getMagicEffect();
 
     if(isAmplified)
     {
         h *= 2;
         r *= 2;
-        m *= 2;
         game.resetMagicPool();
     }
     
     this->changeHealth(h);
     this->changeRespect(r);
-    game.updateMagicPool(m);
 
     switch(card.getType())
     {
@@ -66,7 +63,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         {
             if(rand() % 100 < 7)
             {
-                game.addSpirit(new EvilSpirit(this));
+                game.addSpirit(std::make_unique<EvilSpirit>(this));
             }
             break;
         }
@@ -75,7 +72,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         {
             if(rand() % 100 < 7)
             {
-                game.addSpirit(new GoodSpirit(this));
+                game.addSpirit(std::make_unique<GoodSpirit>(this));
             }
             break;
         }
@@ -84,7 +81,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         {
             if(rand() % 100 < 7)
             {
-                game.addSpirit(new MagicWizard(this, game));
+                game.addSpirit(std::make_unique<MagicWizard>(this));
             }
             break;
         }

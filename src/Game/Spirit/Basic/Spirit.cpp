@@ -1,7 +1,8 @@
 #include "Game/Spirit/Spirit.h"
 
-Spirit::Spirit(Character* t) : target(t) {}
-Spirit::~Spirit() = default;
+Spirit::Spirit(Character* t, int d) : target(t), duration(d) {}
+
+void Spirit::applyEffect() {}
 
 bool Spirit::decreaseDuration()
 {

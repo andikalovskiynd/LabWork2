@@ -4,13 +4,7 @@
 
 Deck::Deck() = default;
 
-Deck::~Deck()
-{
-    for (Card* card : cards)
-    {
-        delete card;
-    }
-}
+Deck::~Deck() = default;
 
 void Deck::shuffle()
 {
@@ -19,15 +13,15 @@ void Deck::shuffle()
     std::shuffle(cards.begin(), cards.end(), g);
 }
 
-Card* Deck::drawCard()
+std::unique_ptr<Card> Deck::drawCard()
 {
     if (!cards.empty())
     {
-        Card* drawnCard = cards.back();
+        std::unique_ptr<Card> drawnCard = std::move(cards.back());
         cards.pop_back();
         return drawnCard;
     }
-    throw std::runtime_error("");
+    throw std::runtime_error("Attempted to draw from an empty deck.");
 }
 
 bool Deck::isEmpty()
@@ -35,8 +29,8 @@ bool Deck::isEmpty()
     return cards.empty();
 }
 
-void Deck::resetDeck(const std::vector<Card*>& newCards)
+void Deck::resetDeck(std::vector<std::unique_ptr<Card>> newCards)
 {
-    cards = newCards;
+    cards = std::move(newCards);
     shuffle();
 }

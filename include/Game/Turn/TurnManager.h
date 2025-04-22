@@ -6,15 +6,15 @@
 class TurnManager 
 {
 private:
-    std::vector<Character*> players;
+    const std::vector<std::unique_ptr<Character>>& players;
     int currentPlayerIndex;
 
 public:
-    TurnManager(const std::vector<Character*>& playerList);
-    void startTurns(); // uses 'takeTurn' method and 'isAlive' method and 'nextTurn' (from here) to make a queue of continious turns
+    TurnManager(const std::vector<std::unique_ptr<Character>>& playerList);
     void nextTurn(); // makes currentPlayerIndex more so it is basicaly just change of focus from one participant to another
     Character* getCurrentPlayer(); // returns current player
     bool isGameOver(); // for all players checks if they're alive
+    void reset();
 };
 
 #endif

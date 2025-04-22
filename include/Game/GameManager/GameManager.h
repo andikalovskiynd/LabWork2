@@ -9,29 +9,33 @@
 class GameManager
 {
 private:
-    GameState* currentState; 
+    std::unique_ptr<GameState> currentState; 
     Deck& deck;
-    std::vector<Character*> players;
+    std::vector<std::unique_ptr<Character>> players;
     int magicPool = 0;
     Character* currentPlayer;
-    std::vector<Spirit*> activeSpirits; 
+    std::vector<std::unique_ptr<Spirit>> activeSpirits; 
 
 public: 
     GameManager(Deck& d);
-    ~GameManager();
+    ~GameManager() = default;
 
-    void setState(GameState* state); // just to make transitions between states
+    void addPlayer(std::unique_ptr<Character> player);
+    void setState(std::unique_ptr<GameState> state); // just to make transitions between states
     void run(); // set state to 'MainMenuState'
-    std::vector<Character*> getPlayers();
+
+    std::vector<std::unique_ptr<Character>> getPlayers() const;
     Deck& getDeck();
     void clearPlayers();
-    int getMagicPool();
+
+    int getMagicPool() const;
     Character* getCurrentPlayer();
     void setCurrentPlayer(Character* player);
+
     void updateMagicPool(int effect);
-    bool shouldAmplify();
+    bool shouldAmplify() const;
     void resetMagicPool();
-    void addSpirit(Spirit* spirit);
+    void addSpirit(std::unique_ptr<Spirit> spirit);
     void processSpirits();
 };
 

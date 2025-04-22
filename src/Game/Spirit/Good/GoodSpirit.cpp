@@ -1,7 +1,7 @@
 #include "Game/Spirit/GoodSpirit.h"
 #include <iostream>
 
-GoodSpirit::GoodSpirit(Character* target) : Spirit(target) {}
+GoodSpirit::GoodSpirit(Character* target) : Spirit(target, 1) {}
 
 void GoodSpirit::applyEffect()
 {
