@@ -3,6 +3,7 @@
 #include "Game/State/Gamestate.h"
 #include "Game/GameManager/GameManager.h"
 #include <iostream>
+#include <memory>
 
 class MainMenuState : public GameState
 {

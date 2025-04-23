@@ -14,7 +14,7 @@ void MainMenuState::updateState(GameManager& game)
     std::cin >> choice;
     if (choice == 1)
     {
-        game.setState(new SetupState(game.getDeck(), game.getPlayers())); // сделать переxод в setupstate
+        game.setState(std::make_unique<SetupState>(game.getDeck()));
     }
     else if (choice == 2)
     {

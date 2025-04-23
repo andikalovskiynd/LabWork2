@@ -20,7 +20,7 @@ public:
 
     // interactions with hand
     void clearHand(); // to clear the 'hand' vector 
-    std::vector<std::unique_ptr<Card>> getHand() override; // to get player's vector 'hand
+    const std::vector<std::unique_ptr<Card>>& getHand() const override; // to get player's vector 'hand
     std::unique_ptr<Card> takeTurn() override; // to take turn using playCard method and card's index in vector 'hand'
     
     virtual void drawInitCards(Deck& deck) override; // to initialize the start hand

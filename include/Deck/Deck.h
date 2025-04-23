@@ -16,7 +16,7 @@ public:
     Deck(); // constructor
     ~Deck() = default;
     void shuffle(); // shuffles all cards in deck
-    std::unique_ptr<Card> Deck::drawCard(); // method to take card from the dack
+    std::unique_ptr<Card> drawCard(); // method to take card from the dack
     bool isEmpty(); // check if is deck is empty
     void resetDeck(std::vector<std::unique_ptr<Card>> newCards); // refill card deck
 };

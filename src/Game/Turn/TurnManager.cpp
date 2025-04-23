@@ -16,19 +16,27 @@ void TurnManager::nextTurn()
 
 Character* TurnManager::getCurrentPlayer()
 {
-    return players[currentPlayerIndex];
+    if (players.empty())
+    {
+        return nullptr;
+    }
+
+    if (currentPlayerIndex < 0 || static_cast<size_t>(currentPlayerIndex) >= players.size())
+    {
+        return nullptr;
+    }
+    return players[currentPlayerIndex].get();
 }
 
 bool TurnManager::isGameOver()
 {
     int alive = 0;
-    for (Character* player : players)
+    for (const auto& playerPtr : players)
     {
-        if (player->IsAlive())
+        if (playerPtr && playerPtr->IsAlive())
         {
             ++alive;
         }
     }
-
     return alive <= 1;
 }

@@ -22,7 +22,7 @@ void GameManager::run()
     }
 }
 
-std::vector<std::unique_ptr<Character>> GameManager::getPlayers() const
+const std::vector<std::unique_ptr<Character>>& GameManager::getPlayers() const
 {
     return players;
 }

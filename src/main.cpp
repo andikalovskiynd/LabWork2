@@ -7,7 +7,7 @@ int main()
 {
     Deck deck;
     GameManager game(deck);
-    game.setState(new MainMenuState());
+    game.setState(std::make_unique<MainMenuState>());
     game.run();
     return 0;
 }

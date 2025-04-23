@@ -22,7 +22,7 @@ public:
     std::string getName() const; // getter for character name
     int getHealth() const; // getter for character health
     int getRespect() const; // getter for character respect
-    virtual std::vector<std::unique_ptr<Card>> getHand() = 0;
+    virtual const std::vector<std::unique_ptr<Card>>& getHand() const = 0; //
 
     // condition 
     bool IsAlive () const; // check if character is alive

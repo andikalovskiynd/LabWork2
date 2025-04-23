@@ -17,7 +17,7 @@ bool Bot::needsCards()
 }
 
 // interactions with hand
-std::vector<std::unique_ptr<Card>> Bot::getHand()
+const std::vector<std::unique_ptr<Card>>& Bot::getHand() const
 {
     return hand;
 }

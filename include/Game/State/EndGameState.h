@@ -4,11 +4,12 @@
 #include "Game/State/Gamestate.h"
 #include "Game/GameManager/GameManager.h"
 #include "Players/Character.h"
+#include <memory>
 
 class EndGameState : public GameState
 {
 private:
-Character* winner;
+    Character* winner;
 
 public:
     EndGameState(Character* winner);

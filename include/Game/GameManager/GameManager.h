@@ -24,7 +24,7 @@ public:
     void setState(std::unique_ptr<GameState> state); // just to make transitions between states
     void run(); // set state to 'MainMenuState'
 
-    std::vector<std::unique_ptr<Character>> getPlayers() const;
+    const std::vector<std::unique_ptr<Character>>& getPlayers() const;
     Deck& getDeck();
     void clearPlayers();
 

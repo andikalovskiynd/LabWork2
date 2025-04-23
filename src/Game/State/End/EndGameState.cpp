@@ -6,12 +6,15 @@ EndGameState::EndGameState(Character* w) : winner(w) {}
 
 void EndGameState::enterState(GameManager& game)
 {
-    std::cout << "Игра окончена. Победитель: " << winner->getName() << std::endl;
-    for (Character* player : game.getPlayers())
+    if (winner)
     {
-        delete player;
+        std::cout << "Игра окончена. Победитель: " << winner->getName() << std::endl;
     }
-    game.clearPlayers();
+
+    else 
+    {
+        std::cout << "Ничья. Не выжил никто..." << std::endl;
+    }
 }
 
 void EndGameState::updateState(GameManager& game)
@@ -32,5 +35,4 @@ void EndGameState::updateState(GameManager& game)
 void EndGameState::exitState(GameManager& game)
 {
     std::cout << "Выход..." << std::endl;
-
 }

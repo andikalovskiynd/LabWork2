@@ -81,7 +81,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         {
             if(rand() % 100 < 7)
             {
-                game.addSpirit(std::make_unique<MagicWizard>(this));
+                game.addSpirit(std::make_unique<MagicWizard>(this, game));
             }
             break;
         }

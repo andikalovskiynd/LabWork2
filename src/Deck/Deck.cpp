@@ -4,8 +4,6 @@
 
 Deck::Deck() = default;
 
-Deck::~Deck() = default;
-
 void Deck::shuffle()
 {
     std::random_device dev;

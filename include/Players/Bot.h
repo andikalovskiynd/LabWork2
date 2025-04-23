@@ -21,7 +21,7 @@ public:
 
     // interactions with hand
     void clearHand(); // clear 'hand' vector 
-    std::vector<std::unique_ptr<Card>> getHand() override; // to get 'hand' vector 
+    const std::vector<std::unique_ptr<Card>>& getHand() const override; // to get 'hand' vector 
 
     // STUPID MOVE (JUST FOR NOW)
     std::unique_ptr<Card> makeStupidMove(); // throw always first card

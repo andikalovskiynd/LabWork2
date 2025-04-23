@@ -2,7 +2,7 @@
 #include "Deck/Deck.h"
 #include "Game/GameManager/GameManager.h"
 
-PlayingState::PlayingState(GameManager& game) : deck(game.getDeck())
+PlayingState::PlayingState(GameManager& game) : deck(game.getDeck()), counter(0)
 {
     turnManager = std::make_unique<TurnManager>(game.getPlayers());
 }
@@ -94,6 +94,7 @@ bool PlayingState::isGameOver(GameManager& game) const
 void PlayingState::enterState(GameManager& game)
 {
     std::cout << "Вход в игровое пространство.." << std::endl;
+    counter = 1;
 }
 
 void PlayingState::exitState(GameManager& game)

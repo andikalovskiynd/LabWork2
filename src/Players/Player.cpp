@@ -48,7 +48,7 @@ bool Player::needsCards()
 }
 
 // interactions with hand
-std::vector<std::unique_ptr<Card>> Player::getHand()
+const std::vector<std::unique_ptr<Card>>& Player::getHand() const 
 {
     return hand;
 }
