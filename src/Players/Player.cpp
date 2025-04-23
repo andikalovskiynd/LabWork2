@@ -1,4 +1,5 @@
 #include "Players/Player.h"
+#include "Game/GameManager/GameManager.h"
 
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
@@ -27,10 +28,64 @@ std::unique_ptr<Card> Player::playCard(int index)
 
 std::unique_ptr<Card> Player::takeTurn()
 {
-    int index;
-    std::cout << "Введите индекс карты: " << std::endl;
-    // TODO: Добавить надежную проверку ввода (не число, выход за границы)
-    std::cin >> index;
+    quitRequested = false; 
+    std::string input; 
+    int index = -1;
+    bool validInput = false;
+    bool quitAttempt = false;
+
+    const auto& currentHand = getHand();
+    if (currentHand.empty()) 
+    {
+        std::cout << "У вас нет карт!" << std::endl;
+        return nullptr;
+    }
+
+    while (!validInput && !quitAttempt)
+    {
+        std::cout << "Введите индекс карты (0-" << currentHand.size() - 1 << ") или 'quit' для выхода: " << std::endl;
+        std::cin >> input;
+
+        if (input == "quit") 
+        {
+            quitAttempt = true; 
+            quitRequested = true;
+        }
+        else
+        {
+            try 
+            {
+                size_t pos;
+                index = std::stoi(input, &pos);
+
+                if (pos != input.size()) 
+                {
+                    throw std::invalid_argument("Error: Invalid input");
+                }
+
+                if (index < 0 || index >= static_cast<int>(currentHand.size()))
+                {
+                    std::cout << "Некорректный индекс. Выберите карту из диапазона от 0 до " << currentHand.size() - 1 << "." << std::endl;
+                }
+
+                else
+                {
+                    validInput = true;
+                }
+            }
+
+            catch (const std::invalid_argument& i) 
+            {
+                std::cout << "Некорректный ввод. Пожалуйста, введите число или 'quit'." << std::endl;
+            }
+        }
+    }
+
+    if (quitAttempt) 
+    {
+        return nullptr;
+    }
+
     return playCard(index);
 }
 
@@ -60,11 +115,13 @@ void Player::clearHand()
 
 void Player::drawInitCards(Deck& deck)
 {
-    for(int i = 0; i < 5; ++i)
+    while (hand.size() < 5 && !deck.isEmpty())
     {
-        if(!deck.isEmpty())
-        {
-            hand.push_back(deck.drawCard());
-        }
+        hand.push_back(deck.drawCard());
     }
+}
+
+bool Player::wantsToQuit() const
+{
+    return quitRequested;
 }

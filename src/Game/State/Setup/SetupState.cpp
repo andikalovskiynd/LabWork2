@@ -3,6 +3,8 @@
 #include "Players/Bot.h"
 #include "Card/Defined.h"
 #include <vector>
+#include <thread>
+#include <chrono>
 
 SetupState::SetupState (Deck& d) : deck(d) {}
 
@@ -12,6 +14,8 @@ void SetupState::enterState(GameManager& game)
     game.getDeck().resetDeck(std::move(collection));
     initPlayers(game);
     initHands(game);
+    std::cout << "Вход в игровое пространство..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
     game.setState(std::make_unique<PlayingState>(game));
 }
 

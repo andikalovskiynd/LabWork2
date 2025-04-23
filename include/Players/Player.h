@@ -3,12 +3,14 @@
 #include <iostream>
 #include "Players/Character.h"
 #include "Deck/Deck.h"
+#include "Game/GameManager/GameManager.h"
 #include <memory>
 
 class Player : public Character
 {
 private:
     std::vector<std::unique_ptr<Card>> hand;
+    bool quitRequested = false;
 
 public:
     Player(const std::string &n, int h, int r); // constructor
@@ -24,6 +26,7 @@ public:
     std::unique_ptr<Card> takeTurn() override; // to take turn using playCard method and card's index in vector 'hand'
     
     virtual void drawInitCards(Deck& deck) override; // to initialize the start hand
+    bool wantsToQuit() const override;
 };
 
 #endif

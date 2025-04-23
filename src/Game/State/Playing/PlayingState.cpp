@@ -1,6 +1,8 @@
 #include "Game/State/PlayingState.h"
 #include "Deck/Deck.h"
 #include "Game/GameManager/GameManager.h"
+#include "Players/Player.h"
+#include "Game/State/MainMenuState.h"
 
 PlayingState::PlayingState(GameManager& game) : deck(game.getDeck()), counter(0)
 {
@@ -30,31 +32,79 @@ void PlayingState::updateState(GameManager& game)
 
 void PlayingState::processTurn(GameManager& game)
 {
+    const auto& players = game.getPlayers();
     Character* currentPlayer = turnManager->getCurrentPlayer();
 
-    if (currentPlayer == nullptr) {
+    if (currentPlayer == nullptr || players.size() < 2) 
+    {
         std::cerr << "Error: No current player in processTurn." << std::endl;
         game.setState(nullptr);
         return;
     }
 
-    std::cout << "Ходит " << currentPlayer->getName() << std::endl;
+    Character* player1 = players[0].get();
+    Character* player2 = players[1].get();
 
-    const auto& currentHand = currentPlayer->getHand();
-    std::cout << "Карты " << currentPlayer->getName() << ":" << std::endl;
-    for (size_t i = 0; i < currentHand.size(); ++i)
+    if (player1 == nullptr || player2 == nullptr) 
     {
-        if (currentHand[i]) 
-        { 
-            std::cout << i << ") " << currentHand[i]->getName() << std::endl;
-        } 
-        else 
-        {
-            std::cout << i << ") [EMPTY]" << std::endl;
-        }
+        std::cerr << "Error: Player pointers are null in processTurn." << std::endl;
+        game.setState(nullptr);
+        return;
     }
 
+    std::cout << std::endl;
+    std::cout << "--- " << player1->getName() << " против " << player2->getName() << " --- ХОД " << counter << " за игроком "  << currentPlayer->getName() << " ---" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Здоровье " << player1->getName() << ": " << player1->getHealth() << ",              Уважение: " << player1->getRespect() << std::endl;
+    std::cout << "Здоровье " << player2->getName() << ": " << player2->getHealth() << ",              Уважение: " << player2->getRespect() << std::endl;
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Магия: " << game.getMagicPool() << std::endl;
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+    const auto& currentHand = currentPlayer->getHand();
+    std::cout << "Карты " << currentPlayer->getName() << " : " << std::endl;
+
+    if (currentHand.empty()) 
+    {
+        std::cout << "    (Пусто)" << std::endl;
+    }
+
+    else 
+    {
+        for (size_t i = 0; i < currentHand.size(); ++i)
+        {
+            if (currentHand[i]) 
+            {
+                std::cout << "    " << i << ") " << currentHand[i]->getName() << std::endl;
+            } 
+            else 
+            {
+                std::cout << "    " << i << ") [Пустая ячейка]" << std::endl; // На всякий случай
+            }
+        }
+    }
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Ход " << currentPlayer->getName() << "." << std::endl;
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
     std::unique_ptr<Card> playedCard = currentPlayer->takeTurn();
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+
+    Player* human = dynamic_cast<Player*>(currentPlayer);
+    if (human && human->wantsToQuit())
+    {
+        std::cout << human->getName() << " запросил выход из игры." << std::endl;
+        game.setState(std::make_unique<MainMenuState>());
+        return;
+    }
 
     if (playedCard)
     {
@@ -66,14 +116,13 @@ void PlayingState::processTurn(GameManager& game)
         std::cerr << "Error: Player " << currentPlayer->getName() << " failed to play a card." << std::endl;
     }
 
-    std::cout << "Пул магии: " << game.getMagicPool() << std::endl;
-    std::cout << "Здоровье " << currentPlayer->getName() << ": " << currentPlayer->getHealth() << std::endl;
-
     if (currentPlayer->needsCards())
     {
         currentPlayer->drawInitCards(deck);
     }
 
+    counter = counter + 1;
+    game.processSpirits();
     turnManager->nextTurn();
 }
 
@@ -93,7 +142,6 @@ bool PlayingState::isGameOver(GameManager& game) const
 }
 void PlayingState::enterState(GameManager& game)
 {
-    std::cout << "Вход в игровое пространство.." << std::endl;
     counter = 1;
 }
 

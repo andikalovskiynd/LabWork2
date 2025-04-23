@@ -13,6 +13,7 @@ class PlayingState : public GameState
 private:
     std::unique_ptr<TurnManager> turnManager;
     Deck& deck;
+    int counter;
 
 public:
     PlayingState(GameManager& game);

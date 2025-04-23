@@ -16,7 +16,6 @@ public:
     virtual ~Spirit() = default;
 
     virtual void applyEffect() = 0;
-    bool decreaseDuration();
     Character* getTarget();
     bool update();
 };

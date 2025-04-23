@@ -1,4 +1,6 @@
 #include "Players/Bot.h"
+#include <thread>
+#include <chrono>
 
 Bot::Bot(const std::string &n, int h, int r) : Character(n, h, r) {}
 
@@ -41,16 +43,22 @@ std::unique_ptr<Card> Bot::makeStupidMove()
 
 std::unique_ptr<Card> Bot::takeTurn()
 {
+    std::cout << "Думает..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::cout << "Все еще думает" << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     return makeStupidMove();
 }
 
 void Bot::drawInitCards(Deck& deck)
 {
-    for(int i = 0; i < 5; ++i)
+    while (hand.size() < 5 && !deck.isEmpty())
     {
-        if(!deck.isEmpty())
-        {
-            hand.push_back(deck.drawCard());
-        }
+        hand.push_back(deck.drawCard());
     }
+}
+
+bool Bot::wantsToQuit() const
+{
+    return false;
 }

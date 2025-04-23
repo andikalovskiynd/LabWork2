@@ -28,6 +28,7 @@ public:
     std::unique_ptr<Card> takeTurn() override; // use makeStupidMove. implied just to inherit for convinience in game organization
 
     virtual void drawInitCards(Deck& deck) override; // take first 'hand' from deck
+    bool wantsToQuit() const override;
 };
 
 #endif

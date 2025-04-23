@@ -34,6 +34,7 @@ public:
     virtual std::unique_ptr<Card> takeTurn() = 0; // to take a turn. used just to inherit because ways of bot's and player's turns are slightly different
     virtual void drawInitCards(Deck& deck) = 0; // only to inherit
     virtual bool needsCards() = 0; // only to inherit
+    virtual bool wantsToQuit() const { return false; }
 };
 
 #endif
