@@ -41,13 +41,13 @@ void SetupState::initPlayers(GameManager& game)
     Difficulty botDiff;
     switch (difficulty)
     {
-        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Валера", 15, 5); break;
-        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Антон", 20, 10); break;
-        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Богдан", 25, 20); break;
+        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Валера", 15, 5, Difficulty::EASY); break;
+        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Антон", 20, 10, Difficulty::MEDIUM); break;
+        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Богдан", 25, 20, Difficulty::HARD); break;
         default: 
             Console::printInvalidInput("Некорректный ввод. Выбрана легкая сложность. ");
             botDiff = Difficulty::EASY;
-            bot = std::make_unique<Bot>("Valera", 15, 5);
+            bot = std::make_unique<Bot>("Анатолий", 15, 5, Difficulty::EASY);
             break;
     }
 
@@ -55,7 +55,7 @@ void SetupState::initPlayers(GameManager& game)
     {
         game.addPlayer(std::move(bot));
     }
-    
+
     else
     {
         Console::printError("Failed to create bot");

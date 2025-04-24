@@ -55,7 +55,7 @@ void PlayingState::processTurn(GameManager& game)
 
     Console::printGameStatus(game, counter, *currentPlayer);
     Console::printTurn(*currentPlayer);
-    std::unique_ptr<Card> playedCard = currentPlayer->takeTurn();
+    std::unique_ptr<Card> playedCard = currentPlayer->takeTurn(game);
 
     Player* human = dynamic_cast<Player*>(currentPlayer);
     if (human && human->wantsToQuit())

@@ -109,7 +109,7 @@ namespace Console
         {
             for (size_t i = 0; i < hand.size(); ++i)
             {
-                std::cout << "      " << i << ") " << hand[i]->getName() << std::endl;
+                std::cout << "      " << i << ") " << hand[i]->getName() << " (Health: " << hand[i]->getHealthEffect() << ", Magic: " << hand[i]->getMagicEffect() << ", Respect: " << hand[i]->getRespectEffect() << ")" << std::endl;
             }
         }
         printEmptyLine();
@@ -182,11 +182,15 @@ namespace Console
     // Game state functions
     void printEnterState(const std::string& stateName)
     {
+        printEmptyLine();
         std::cout << "--- Вход в состояние: " << stateName << " ---" << std::endl;
+        printEmptyLine();
     }
 
     void printExitState(const std::string& stateName)
     {
+        printEmptyLine();
         std::cout << "--- Выход из состояния: " << stateName << " ---" << std::endl;
+        printEmptyLine();
     }
 }

@@ -25,6 +25,7 @@ public:
     const std::vector<std::unique_ptr<Card>>& getHand() const override; // to get 'hand' vector 
 
     // STUPID MOVE (JUST FOR NOW)
+    std::unique_ptr<Card> playCard(int index);
     std::unique_ptr<Card> makeStupidMove(); // throw always first card
     std::unique_ptr<Card> takeTurn(GameManager& game) override; // use makeStupidMove. implied just to inherit for convinience in game organization
 
