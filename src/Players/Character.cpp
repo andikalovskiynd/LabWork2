@@ -2,7 +2,7 @@
 #include "Game/Spirit/EvilSpirit.h"
 #include "Game/Spirit/GoodSpirit.h"
 #include "Game/Spirit/MagicWizard.h"
-#include <iostream>
+#include "Utilities/Console.h"
 
 Character::Character(const std::string &n, int h, int r) : name(n), health(h), respect (r) {}
 
@@ -88,9 +88,9 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
 
         case Card::Type::RESPECT:
         {
-            if(rand() % 100 < 2)
+            if(rand() % 100 < 12)
             {
-                std::cout << "Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался.." << std::endl;
+                Console::print("Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался..");
             }
             break;
         }

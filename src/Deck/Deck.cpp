@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <random>
 #include "Deck/Deck.h"
+#include "Utilities/Console.h"
 
 Deck::Deck() = default;
 
@@ -19,7 +20,7 @@ std::unique_ptr<Card> Deck::drawCard()
         cards.pop_back();
         return drawnCard;
     }
-    throw std::runtime_error("Attempted to draw from an empty deck.");
+    Console::printFatalError("Attempted to draw a card from an empty deck");
 }
 
 bool Deck::isEmpty()

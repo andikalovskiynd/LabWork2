@@ -11,9 +11,10 @@ class Bot : public Character
 {
 private:
     std::vector<std::unique_ptr<Card>> hand;
+    Difficulty botDifficulty;
 
 public:
-    Bot(const std::string &n, int h, int r);
+    Bot(const std::string &n, int h, int r, Difficulty d);
 
     // interactions with cards
     void drawCard(Deck& deck); // to take card from deck
@@ -25,7 +26,7 @@ public:
 
     // STUPID MOVE (JUST FOR NOW)
     std::unique_ptr<Card> makeStupidMove(); // throw always first card
-    std::unique_ptr<Card> takeTurn() override; // use makeStupidMove. implied just to inherit for convinience in game organization
+    std::unique_ptr<Card> takeTurn(GameManager& game) override; // use makeStupidMove. implied just to inherit for convinience in game organization
 
     virtual void drawInitCards(Deck& deck) override; // take first 'hand' from deck
     bool wantsToQuit() const override;

@@ -1,7 +1,8 @@
 #include "Game/GameManager/GameManager.h"
 #include <utility>
-#include <iostream>
 #include <memory>
+#include "Utilities/Console.h"
+#include "Players/Character.h"
 
 GameManager::GameManager(Deck& d) : currentState(nullptr), deck(d) {}
 
@@ -50,23 +51,23 @@ int GameManager::getMagicPool() const
 
 void GameManager::updateMagicPool(int effect)
 {
-    std::cout << "DEBUG: Entering updateMagicPool. Effect: " << effect << std::endl;
-
-    if (players.empty()) {
-         std::cerr << "FATAL ERROR: GameManager::updateMagicPool - players container is empty!" << std::endl;
-         abort();
-    }
-
-    if (currentPlayer == nullptr) {
-        std::cerr << "FATAL ERROR: GameManager::updateMagicPool - currentPlayer is null!" << std::endl;
+    if (players.empty()) 
+    {
+        Console::printFatalError("FATAL ERROR: GameManager::updateMagicPool - players container is empty!");
         abort();
     }
 
-    std::cout << "DEBUG: Comparing currentPlayer (" << currentPlayer << ") with players[0].get() (" << players[0].get() << ")" << std::endl;
+    if (currentPlayer == nullptr) 
+    {
+        Console::printFatalError("FATAL ERROR: GameManager::updateMagicPool - currentPlayer is null!");
+        abort();
+    }
+
     if (currentPlayer == players[0].get())
     {
         magicPool -= effect;
     }
+
     else
     {
         magicPool += effect;
@@ -112,7 +113,7 @@ void GameManager::addSpirit(std::unique_ptr<Spirit> spirit)
     }
     else
     {
-        std::cerr << "Error: attempted to add empty spirit" << std::endl;
+        Console::printError("Error: attempted to add empty spirit");
     }
 }
 
@@ -149,6 +150,6 @@ void GameManager::addPlayer(std::unique_ptr<Character> player)
     }
     else
     {
-        std::cerr << "Error: attempted to add empty player" << std::endl;
+        Console::printError("Error: attempted to add empty player");
     }
 }

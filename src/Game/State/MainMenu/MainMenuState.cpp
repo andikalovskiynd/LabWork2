@@ -2,10 +2,17 @@
 #include "Game/GameManager/GameManager.h"
 #include "Game/State/Gamestate.h"
 #include "Game/State/SetupState.h"
+#include "Utilities/Console.h"
 
 void MainMenuState::enterState(GameManager& game)
 {
-    std::cout << "Добро пожаловать! Для продолжения нажмите 1. Для выхода нажмите 2." << std::endl;
+    Console::printEmptyLine();
+    Console::printEnterState("Main menu");
+    Console::print("Добро пожаловать!");
+    Console::printEmptyLine();
+    Console::printMenu({"1) Начать новую игру", "2) Выйти "});
+    Console::printEmptyLine();
+    Console::printSeparator();
 }
 
 void MainMenuState::updateState(GameManager& game)
@@ -18,16 +25,16 @@ void MainMenuState::updateState(GameManager& game)
     }
     else if (choice == 2)
     {
-        std::cout << "Выход..." << std::endl;
+        Console::print("Выход...");
         game.setState(nullptr);
     }
     else 
     {
-        std::cout << "Некорректный ввод. Попробуйте еще раз." << std::endl;
+        Console::printInvalidInput("Некорректный ввод. Попробуйте еще раз.");
     }
 }
 
 void MainMenuState::exitState(GameManager& game)
 {
-    std::cout << "Выход..." << std::endl;
+    Console::printExitState("Main menu");
 }

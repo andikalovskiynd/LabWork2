@@ -1,5 +1,6 @@
 #include "Players/Player.h"
 #include "Game/GameManager/GameManager.h"
+#include "Utilities/Console.h"
 
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
@@ -15,7 +16,7 @@ std::unique_ptr<Card> Player::playCard(int index)
 
     else
     {
-        std::cout << "Вы выбрали карту, которой у вас нет. Думали обмануть систему? Смеется тот, кто смеется последний..." << std::endl;
+        Console::print("Вы выбрали карту, которой у вас нет. Думали обмануть систему? Смеется тот, кто смеется последний...");
         if (!hand.empty())
         {
             std::unique_ptr<Card> chosenCard = std::move(hand.front());
@@ -26,7 +27,7 @@ std::unique_ptr<Card> Player::playCard(int index)
     }
 }
 
-std::unique_ptr<Card> Player::takeTurn()
+std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 {
     quitRequested = false; 
     std::string input; 
@@ -37,16 +38,16 @@ std::unique_ptr<Card> Player::takeTurn()
     const auto& currentHand = getHand();
     if (currentHand.empty()) 
     {
-        std::cout << "У вас нет карт!" << std::endl;
+        Console::print("У вас нет карт!");
         return nullptr;
     }
 
     while (!validInput && !quitAttempt)
     {
-        std::cout << "Введите индекс карты (0-" << currentHand.size() - 1 << ") или 'quit' для выхода: " << std::endl;
+        Console::print("Введите индекс карты (0-" + std::to_string(currentHand.size() - 1) + ") или 'quit' для выхода: ");
         std::cin >> input;
 
-        if (input == "quit") 
+        if (input == "quit" || input == "exit") 
         {
             quitAttempt = true; 
             quitRequested = true;
@@ -65,7 +66,7 @@ std::unique_ptr<Card> Player::takeTurn()
 
                 if (index < 0 || index >= static_cast<int>(currentHand.size()))
                 {
-                    std::cout << "Некорректный индекс. Выберите карту из диапазона от 0 до " << currentHand.size() - 1 << "." << std::endl;
+                    Console::printInvalidInput("Некорректный индекс. Выберите карту из диапазона от 0 до " + std::to_string(currentHand.size() - 1) + ".");
                 }
 
                 else
@@ -76,7 +77,7 @@ std::unique_ptr<Card> Player::takeTurn()
 
             catch (const std::invalid_argument& i) 
             {
-                std::cout << "Некорректный ввод. Пожалуйста, введите число или 'quit'." << std::endl;
+                Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число или 'quit'.");
             }
         }
     }
