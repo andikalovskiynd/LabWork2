@@ -3,6 +3,7 @@
 #include "Game/State/MainMenuState.h"
 #include <iostream>
 #include "Utilities/Console.h"
+#include "Utilities/Input.h"
 
 EndGameState::EndGameState(Character* w) : winner(w) {}
 
@@ -14,21 +15,23 @@ void EndGameState::enterState(GameManager& game)
 
 void EndGameState::updateState(GameManager& game)
 {
-    int choice;
     Console::printMenu({"1) Начать новую игру", "2) Выйти"});
-    std::cin >> choice;
-    if (choice == 2)
+    int choice = InputManager::getMenuChoice();
+
+    if (choice == 1)
     {
-        game.setState(nullptr);
-    }
-    else if (choice == 1)
-    {
-        game.clearPlayers();
         game.setState(std::make_unique<SetupState>(game.getDeck()));
     }
-    else 
+
+    else if (choice == 2)
     {
-        Console::printInvalidInput("Некорректный ввод");
+        Console::print("Выход...");
+        game.setState(nullptr);
+    }
+
+    else
+    {
+        Console::printInvalidInput("Некорректный выбор. Пожалуйста, введите 1 или 2.");
     }
 }
 

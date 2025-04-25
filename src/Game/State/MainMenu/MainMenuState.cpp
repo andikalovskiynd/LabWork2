@@ -3,6 +3,7 @@
 #include "Game/State/Gamestate.h"
 #include "Game/State/SetupState.h"
 #include "Utilities/Console.h"
+#include "Utilities/Input.h"
 
 void MainMenuState::enterState(GameManager& game)
 {
@@ -17,30 +18,22 @@ void MainMenuState::enterState(GameManager& game)
 
 void MainMenuState::updateState(GameManager& game)
 {
-    int choice;
-    if (std::cin >> choice)
-    
+    int choice = InputManager::getMenuChoice();
+
+    if (choice == 1)
     {
-        if (choice == 1)
-        {
-            game.setState(std::make_unique<SetupState>(game.getDeck()));
-        }
-        else if (choice == 2)
-        {
-            Console::print("Выход..."); 
-            game.setState(nullptr); 
-        }
-        else
-        {
-            Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите 1 или 2."); // Уточненное сообщение
-        }
+        game.setState(std::make_unique<SetupState>(game.getDeck()));
     }
 
-    else 
+    else if (choice == 2)
     {
-        Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число (1 или 2)."); // Сообщение об ошибке
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        Console::print("Выход...");
+        game.setState(nullptr);
+    }
+
+    else
+    {
+        Console::printInvalidInput("Некорректный выбор. Пожалуйста, введите 1 или 2.");
     }
 }
 

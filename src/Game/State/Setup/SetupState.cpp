@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include "Utilities/Console.h"
+#include "Utilities/Input.h"
 
 SetupState::SetupState (Deck& d) : deck(d) {}
 
@@ -26,16 +27,15 @@ void SetupState::exitState([[maybe_unused]] GameManager& game) {}
 void SetupState::initPlayers(GameManager& game)
 {
     std::string playerName;
-    int difficulty;
 
     Console::print("Введите свое имя");
-    std::cin >> playerName;
+    playerName = InputManager::getStringInput();
 
     std::unique_ptr<Character> human = std::make_unique<Player>(playerName, 20, 10);
     game.addPlayer(std::move(human));
 
     Console::print("Выберите сложность (1-3 от легкого к сложному)");
-    std::cin >> difficulty;
+    int difficulty = InputManager::getInt(1, 3);
 
     std::unique_ptr<Character> bot;
     Difficulty botDiff;

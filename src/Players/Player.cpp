@@ -1,6 +1,7 @@
 #include "Players/Player.h"
 #include "Game/GameManager/GameManager.h"
 #include "Utilities/Console.h"
+#include "Utilities/Input.h"
 
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
@@ -29,8 +30,7 @@ std::unique_ptr<Card> Player::playCard(int index)
 
 std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 {
-    quitRequested = false; 
-    std::string input; 
+    quitRequested = false;  
     int index = -1;
     bool validInput = false;
     bool quitAttempt = false;
@@ -45,7 +45,7 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
     while (!validInput && !quitAttempt)
     {
         Console::print("Введите индекс карты (0-" + std::to_string(currentHand.size() - 1) + ") или 'quit' для выхода: ");
-        std::cin >> input;
+        std::string input = InputManager::getStringInput();
 
         if (input == "quit" || input == "exit") 
         {
@@ -78,6 +78,11 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
             catch (const std::invalid_argument& i) 
             {
                 Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число или 'quit'.");
+            }
+
+            catch (const std::out_of_range& i)
+            {
+                Console::printInvalidInput("Введенное число слишком большое или маленькое, попробуйте еще раз.");
             }
         }
     }
