@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <random>
+#include <utility>
 #include "Deck/Deck.h"
 #include "Utilities/Console.h"
 
@@ -31,5 +32,16 @@ bool Deck::isEmpty()
 void Deck::resetDeck(std::vector<std::unique_ptr<Card>> newCards)
 {
     cards = std::move(newCards);
+    shuffle();
+}
+
+const std::vector<std::unique_ptr<Card>>& Deck::getCards() const
+{
+    return cards;
+}
+
+void Deck::addCard(std::unique_ptr<Card> card)
+{
+    cards.push_back(std::move(card));
     shuffle();
 }

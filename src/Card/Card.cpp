@@ -26,3 +26,8 @@ Card::Type Card::getType() const
 {
     return cardType;
 }
+
+bool Card::operator==(const Card& another) const
+{
+    return name == another.getName();
+}

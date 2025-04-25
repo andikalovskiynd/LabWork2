@@ -18,19 +18,29 @@ void MainMenuState::enterState(GameManager& game)
 void MainMenuState::updateState(GameManager& game)
 {
     int choice;
-    std::cin >> choice;
-    if (choice == 1)
+    if (std::cin >> choice)
+    
     {
-        game.setState(std::make_unique<SetupState>(game.getDeck()));
+        if (choice == 1)
+        {
+            game.setState(std::make_unique<SetupState>(game.getDeck()));
+        }
+        else if (choice == 2)
+        {
+            Console::print("Выход..."); 
+            game.setState(nullptr); 
+        }
+        else
+        {
+            Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите 1 или 2."); // Уточненное сообщение
+        }
     }
-    else if (choice == 2)
-    {
-        Console::print("Выход...");
-        game.setState(nullptr);
-    }
+
     else 
     {
-        Console::printInvalidInput("Некорректный ввод. Попробуйте еще раз.");
+        Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число (1 или 2)."); // Сообщение об ошибке
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 

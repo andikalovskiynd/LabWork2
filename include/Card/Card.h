@@ -28,6 +28,7 @@ public:
     int getRespectEffect() const; // getter for card respect effect
     int getMagicEffect() const; // getter for card magic effect
     Type getType() const;
+    bool operator==(const Card& another) const;
 };
 
 #endif

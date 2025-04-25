@@ -19,6 +19,8 @@ public:
     std::unique_ptr<Card> drawCard(); // method to take card from the dack
     bool isEmpty(); // check if is deck is empty
     void resetDeck(std::vector<std::unique_ptr<Card>> newCards); // refill card deck
+    const std::vector<std::unique_ptr<Card>>& getCards() const;
+    void addCard(std::unique_ptr<Card> card);
 };
 
 #endif
