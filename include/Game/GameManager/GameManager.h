@@ -32,7 +32,7 @@ public:
     Character* getCurrentPlayer();
     void setCurrentPlayer(Character* player);
 
-    void updateMagicPool(int effect);
+    void updateMagicPool(int amount);
     bool shouldAmplify() const;
     void resetMagicPool();
     void addSpirit(std::unique_ptr<Spirit> spirit);

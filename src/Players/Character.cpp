@@ -41,21 +41,30 @@ void Character::changeRespect(int amount)
 void Character::ApplyCardEffect (const Card& card, GameManager& game)
 {
     game.setCurrentPlayer(this);
-    game.updateMagicPool(card.getMagicEffect());
     
+    Character* opponent = nullptr;
+    const auto& allPlayers = game.getPlayers();
+    for (const auto& playerPtr : allPlayers)
+    {
+        if (playerPtr.get() != this)
+        {
+            opponent = playerPtr.get();
+            break;
+        }
+    }
+
     bool isAmplified = game.shouldAmplify();
     int h = card.getHealthEffect();
     int r = card.getRespectEffect();
+    int m = card.getMagicEffect();
 
     if(isAmplified)
     {
         h *= 2;
         r *= 2;
+        m *= 2;
         game.resetMagicPool();
     }
-    
-    this->changeHealth(h);
-    this->changeRespect(r);
 
     switch(card.getType())
     {
@@ -65,6 +74,9 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
             {
                 game.addSpirit(std::make_unique<EvilSpirit>(this));
             }
+            opponent->changeHealth(-h);
+            this->changeRespect(-r);
+            game.updateMagicPool(-std::abs(m));
             break;
         }
         
@@ -74,6 +86,9 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
             {
                 game.addSpirit(std::make_unique<GoodSpirit>(this));
             }
+            this->changeHealth(h);
+            opponent->changeRespect(r);
+            game.updateMagicPool(-std::abs(m));
             break;
         }
 
@@ -83,6 +98,9 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
             {
                 game.addSpirit(std::make_unique<MagicWizard>(this, game));
             }
+            game.updateMagicPool(m);
+            this->changeHealth(-h);
+            this->changeRespect(-r);
             break;
         }
 
@@ -92,6 +110,9 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
             {
                 Console::print("Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался..");
             }
+            this->changeRespect(r);
+            this->changeHealth(-h);
+            game.updateMagicPool(-std::abs(m));
             break;
         }
 

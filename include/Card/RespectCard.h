@@ -5,7 +5,7 @@
 class RespectCard : public Card
 {
 public:
-    RespectCard(const std::string& name, int respectChange, int magicCost) : Card(name, 0, respectChange, -magicCost, Type::RESPECT) {}
+    RespectCard(const std::string& name, int respectChange, int magicCost) : Card(name, 0, respectChange, magicCost, Type::RESPECT) {}
 };
 
 #endif

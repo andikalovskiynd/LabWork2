@@ -26,6 +26,7 @@ void SetupState::exitState([[maybe_unused]] GameManager& game) {}
 
 void SetupState::initPlayers(GameManager& game)
 {
+    game.clearPlayers();
     std::string playerName;
 
     Console::print("Введите свое имя");

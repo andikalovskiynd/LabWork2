@@ -37,6 +37,8 @@ void GameManager::clearPlayers()
 {
     players.clear();
     currentPlayer = nullptr;
+    activeSpirits.clear();
+    magicPool = 0;
 }
 
 void GameManager::setCurrentPlayer(Character* player)
@@ -49,38 +51,13 @@ int GameManager::getMagicPool() const
     return magicPool;
 }
 
-void GameManager::updateMagicPool(int effect)
+void GameManager::updateMagicPool(int amount)
 {
-    if (players.empty()) 
-    {
-        Console::printFatalError("FATAL ERROR: GameManager::updateMagicPool - players container is empty!");
-        abort();
-    }
-
-    if (currentPlayer == nullptr) 
-    {
-        Console::printFatalError("FATAL ERROR: GameManager::updateMagicPool - currentPlayer is null!");
-        abort();
-    }
-
-    if (currentPlayer == players[0].get())
-    {
-        magicPool -= effect;
-    }
-
-    else
-    {
-        magicPool += effect;
-    }
+    magicPool += amount;
 }
 
 bool GameManager::shouldAmplify() const
 {
-    if (players.size() < 2 || currentPlayer == nullptr) 
-    {
-        return false;
-    }
-
     if (currentPlayer == players[0].get() && magicPool <= -10)
     {
         return true;

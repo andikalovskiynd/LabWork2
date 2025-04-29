@@ -5,7 +5,7 @@
 class HealCard : public Card
 {
 public:
-    HealCard(const std::string& name, int heal, int magicCost) : Card(name, heal, 0, -magicCost, Type::HEAL) {}
+    HealCard(const std::string& name, int heal, int magicCost) : Card(name, heal, 0, magicCost, Type::HEAL) {}
 };
 
 #endif
