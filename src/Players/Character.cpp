@@ -64,14 +64,13 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         r *= 2;
         m *= 2;
         game.resetMagicPool();
-        std::cout << "CHARACTER: ISAMPLIFIED IS NOW TRUE. DOUBLE EFFECT IS EXPECTED." << std::endl;
     }
 
     switch(card.getType())
     {
         case Card::Type::ATTACK:
         {
-            if(true)
+            if(rand() % 100 < 7)
             {
                 game.addSpirit(std::make_unique<EvilSpirit>(this));
             }
@@ -83,7 +82,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         
         case Card::Type::HEAL:
         {
-            if(true)
+            if(rand() %  100 < 7)
             {
                 game.addSpirit(std::make_unique<GoodSpirit>(this));
             }
@@ -95,7 +94,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
 
         case Card::Type::MAGIC:
         {
-            if(true)
+            if(rand() % 100 < 7)
             {
                 game.addSpirit(std::make_unique<MagicWizard>(this, game));
             }
@@ -107,7 +106,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
 
         case Card::Type::RESPECT:
         {
-            if(true)
+            if(rand() % 100 < 7)
             {
                 Console::print("Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался..");
             }

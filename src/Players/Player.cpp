@@ -97,7 +97,7 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 
             catch (const std::invalid_argument& i) 
             {
-                Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число или 'quit'.");
+                Console::printInvalidInput("Некорректный ввод.");
             }
 
             catch (const std::out_of_range& i)

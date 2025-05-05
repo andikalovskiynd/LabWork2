@@ -242,7 +242,7 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                 currentState = BotState::CriticallyDefensive;
             }
             
-            else if (opponentHealth <= P_CRITICAL_LOW_HEALTH_THRESHOLD)
+            else if (opponentHealth <= P_CRITICAL_LOW_HEALTH_THRESHOLD || botHealth - opponentHealth >= 20)
             {
                 currentState = BotState::CriticallyAggressive;
             }
@@ -287,8 +287,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                 currentState = BotState::RespectFocus;
             }
 
-            Console::print("Состояние Сложного бота: " + std::to_string(static_cast<int>(currentState)));
-
             int bestScore = -1;
             int bestCardIndex = -1;
 
@@ -307,7 +305,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                 {
                     case BotState::CriticallyDefensive:
                     {
-                        Console::print("AI STATE: cr defensive");
                         if (card.getType() == Card::Type::HEAL)
                         {
                             currentCardScore = card.getHealthEffect() * 10000;
@@ -323,7 +320,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::Defensive:
                     {
-                        Console::print("AI STATE: defensive");
                         if (card.getType() == Card::Type::HEAL)
                         {
                             currentCardScore = card.getHealthEffect() * 5000;
@@ -331,12 +327,12 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                         else if (magic >= HIGH_MAGIC_THRESHOLD && card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getMagicEffect()) * 2000;
+                            currentCardScore = std::max(0, card.getMagicEffect()) * 2000;
                         }
 
                         else if (card.getType() == Card::Type::ATTACK && opponentHealth <= P_OKAY_HEALTH_THRESHOLD)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 350;
+                            currentCardScore = (card.getHealthEffect()) * 350;
                         }
 
                         break;
@@ -344,15 +340,14 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::Aggressive:
                     {
-                        Console::print("AI STATE: agressive");
                         if (card.getType() == Card::Type::ATTACK)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 5000;
+                            currentCardScore = (card.getHealthEffect()) * 5000;
                         }
 
                         else if (magic >= HIGH_MAGIC_THRESHOLD && card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getMagicEffect()) * 2000;
+                            currentCardScore = std::max(0, card.getMagicEffect()) * 2000;
                         }
 
                         else if (botHealth < OKAY_HEALTH_THRESHOLD && card.getType() == Card::Type::HEAL)
@@ -365,15 +360,14 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::CriticallyAggressive:
                     {
-                        Console::print("AI STATE: cr agressive");
                         if (card.getType() == Card::Type::ATTACK)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 10000;
+                            currentCardScore = (card.getHealthEffect()) * 10000;
                         }
 
                         else if (magic >= CRITICAL_HIGH_MAGIC_THRESHOLD && card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getMagicEffect()) * 5000;
+                            currentCardScore = std::max(0, card.getMagicEffect()) * 5000;
                         }
 
                         break;
@@ -381,10 +375,9 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::MagicCrisis:
                     {
-                        Console::print("AI STATE: magic crisis");
                         if (card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getMagicEffect()) * 10000;
+                            currentCardScore = std::max(0, card.getMagicEffect()) * 10000;
                         }
 
                         else if (botHealth <= LOW_HEALTH_THRESHOLD && card.getType() == Card::Type::HEAL)
@@ -397,15 +390,14 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::RespectCrisisOpponent:
                     {
-                        Console::print("AI STATE: respect crisis opp");
                         if (card.getType() == Card::Type::RESPECT && card.getRespectEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getRespectEffect()) * 10000;
+                            currentCardScore = std::max(0, card.getRespectEffect()) * 10000;
                         }
                         
                         else if (card.getType() == Card::Type::ATTACK && opponentHealth < P_LOW_HEALTH_THRESHOLD)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 3000;
+                            currentCardScore = (card.getHealthEffect()) * 3000;
                         }
 
                         break;
@@ -413,7 +405,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::RespectCrisisBot:
                     {
-                        Console::print("AI STATE: repect crisis bot");
                         if (card.getType() == Card::Type::RESPECT && card.getRespectEffect() > 0)
                         {
                             currentCardScore = card.getRespectEffect() * 10000;
@@ -429,7 +420,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::MagicAdvantageBot:
                     {
-                        Console::print("AI STATE: magic advantage bot");
                         if (card.getType() == Card::Type::MAGIC && card.getMagicEffect() > 0)
                         {
                             currentCardScore = card.getMagicEffect() * 5000;
@@ -445,15 +435,14 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::MagicAdvantageOpponent:
                     {
-                        Console::print("AI STATE: magic advantage opponent");
                         if (card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getMagicEffect()) * 5000;
+                            currentCardScore = std::max(0, card.getMagicEffect()) * 5000;
                         }
 
                         else if (card.getType() == Card::Type::ATTACK)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 1000;
+                            currentCardScore = (card.getHealthEffect()) * 1000;
                         }
 
                         break;
@@ -461,7 +450,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                     case BotState::RespectFocus:
                     {
-                        Console::print("AI STATE: respect focus");
                         if (card.getType() == Card::Type::RESPECT && card.getRespectEffect() > 0)
                         {
                             currentCardScore = card.getRespectEffect() * 3000;
@@ -469,12 +457,12 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
                         else if (card.getType() == Card::Type::RESPECT && card.getRespectEffect() < 0)
                         {
-                            currentCardScore = std::max(0, -card.getRespectEffect()) * 3000;
+                            currentCardScore = std::max(0, card.getRespectEffect()) * 3000;
                         }
 
                         else if (card.getType() == Card::Type::ATTACK)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 300;
+                            currentCardScore = (card.getHealthEffect()) * 300;
                         }
 
                         break;
@@ -483,10 +471,9 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                     case BotState::Normal:
                     case BotState::Default:
                     {
-                        Console::print("AI STATE: default");
                         if (card.getType() == Card::Type::ATTACK)
                         {
-                            currentCardScore = (-card.getHealthEffect()) * 1000;
+                            currentCardScore = (card.getHealthEffect()) * 1000;
                         }
 
                         else if (card.getType() == Card::Type::HEAL)
@@ -525,7 +512,7 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
             if (bestCardIndex != -1)
             {
-                Console::print("Сложный бот выбрал карту с индексом: " + std::to_string(bestCardIndex) + " (оценка: " + std::to_string(bestScore) + ")");
+                Console::print("Бот выбрал карту с индексом: " + std::to_string(bestCardIndex) + " (оценка: " + std::to_string(bestScore) + ")");
                 playedCard = playCard(bestCardIndex);
             }
 

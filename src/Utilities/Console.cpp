@@ -116,7 +116,7 @@ namespace Console
             for (size_t i = 0; i < hand.size(); ++i)
             {
                 pause(std::chrono::milliseconds(250));
-                std::cout << "      " << i << ") " << hand[i]->getName() << " (Health: " << hand[i]->getHealthEffect() << ", Magic: " << hand[i]->getMagicEffect() << ", Respect: " << hand[i]->getRespectEffect() << ")" << std::endl;
+                std::cout << "      " << i << ") " << hand[i]->getName() << " (здоровье: " << hand[i]->getHealthEffect() << ", магия: " << hand[i]->getMagicEffect() << ", уважение: " << hand[i]->getRespectEffect() << ", тип: "<< typeToString(hand[i]->getType()) << ")" << std::endl;
             }
         }
         printEmptyLine();
@@ -205,7 +205,7 @@ namespace Console
     {
         switch(type)
         {
-            case Card::Type::ATTACK: return "Аттакующая";
+            case Card::Type::ATTACK: return "Атакующая";
             case Card::Type::HEAL: return "Лечащая";
             case Card::Type::MAGIC: return "Магическая";
             case Card::Type::RESPECT: return "Уважение";

@@ -60,17 +60,16 @@ bool GameManager::shouldAmplify() const
 {
     if (currentPlayer == players[1].get() && magicPool <= -10)
     {
-        std::cout << "MAGIC POOL IS <= 10, " << players[1].get() << "'s NEXT CARD IS AMPLIFIED" << std::endl;
+        Console::print("Магия достигла -10, следуюшая карта " + players[1]->getName() + " будет усилена!");
         return true;
     }
     else if (currentPlayer == players[0].get() && magicPool >= 10)
     {
-        std::cout << "MAGIC POOL IS >= 10, " << players[0].get() << "'s NEXT CARD IS AMPLIFIED" << std::endl;
+        Console::print("Магия достигла 10, следуюшая карта " + players[0]->getName() + " будет усилена!");
         return true;
     }
     else
     {
-        std::cout << "MAGIC IS IN APPROPRIATE STATE" << std::endl;
         return false;
     }
 }
