@@ -44,13 +44,33 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 
     while (!validInput && !quitAttempt)
     {
-        Console::print("Введите индекс карты (0-" + std::to_string(currentHand.size() - 1) + ") или 'quit' для выхода: ");
+        Console::print("Введите индекс карты (0-" + std::to_string(currentHand.size() - 1) + "), 'quit' для выхода или 'help i' для дополнительной информации: ");
         std::string input = InputManager::getStringInput();
 
         if (input == "quit" || input == "exit") 
         {
             quitAttempt = true; 
             quitRequested = true;
+        }
+        else if (input == "help 0")
+        {
+            Console::printAdditionalInfo(*currentHand[0]);
+        }
+        else if (input == "help 1")
+        {
+            Console::printAdditionalInfo(*currentHand[1]);
+        }
+        else if (input == "help 2")
+        {
+            Console::printAdditionalInfo(*currentHand[2]);
+        }
+        else if (input == "help 3")
+        {
+            Console::printAdditionalInfo(*currentHand[3]);
+        }
+        else if (input == "help 4")
+        {
+            Console::printAdditionalInfo(*currentHand[4]);
         }
         else
         {

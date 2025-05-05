@@ -72,6 +72,7 @@ void PlayingState::processTurn(GameManager& game)
         Console::printPlayedCard(*currentPlayer, *playedCard);
         currentPlayer->ApplyCardEffect(*playedCard, game);
     }
+    
     else
     {
         Console::printFailedToPlayCard(*currentPlayer);

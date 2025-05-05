@@ -7,6 +7,7 @@
 #include <memory>
 #include <chrono>
 #include <thread>
+#include "Card/Card.h"
 
 class GameManager;
 class Character;
@@ -42,6 +43,9 @@ namespace Console
     // Game states functions
     void printEnterState(const std::string& stateName);
     void printExitState(const std::string& stateName);
+
+    std::string typeToString(Card::Type type);
+    void printAdditionalInfo(const Card& card);
 }
 
 #endif

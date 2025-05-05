@@ -58,16 +58,19 @@ void GameManager::updateMagicPool(int amount)
 
 bool GameManager::shouldAmplify() const
 {
-    if (currentPlayer == players[0].get() && magicPool <= -10)
+    if (currentPlayer == players[1].get() && magicPool <= -10)
     {
+        std::cout << "MAGIC POOL IS <= 10, " << players[1].get() << "'s NEXT CARD IS AMPLIFIED" << std::endl;
         return true;
     }
-    else if (currentPlayer == players[1].get() && magicPool >= 10)
+    else if (currentPlayer == players[0].get() && magicPool >= 10)
     {
+        std::cout << "MAGIC POOL IS >= 10, " << players[0].get() << "'s NEXT CARD IS AMPLIFIED" << std::endl;
         return true;
     }
     else
     {
+        std::cout << "MAGIC IS IN APPROPRIATE STATE" << std::endl;
         return false;
     }
 }
