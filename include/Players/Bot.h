@@ -27,8 +27,8 @@ public:
     // STUPID MOVE (JUST FOR NOW)
     std::unique_ptr<Card> playCard(int index);
     std::unique_ptr<Card> makeStupidMove(); // throw always first card
-    std::unique_ptr<Card> takeTurn(GameManager& game) override; // use makeStupidMove. implied just to inherit for convinience in game organization
-
+    std::unique_ptr<Card> takeTurn(GameManager& game) override; // 
+    
     virtual void drawInitCards(Deck& deck) override; // take first 'hand' from deck
     bool wantsToQuit() const override;
 };

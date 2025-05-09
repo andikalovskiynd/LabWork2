@@ -6,4 +6,8 @@
 #include <vector>
 #include <memory>
 
+/**
+ * @brief Function that creates collection from already defined cards.
+ * @return Vector with unique pointers on 'Card' objects. 
+*/
 std::vector<std::unique_ptr<Card>> createCollection();

@@ -1,0 +1,385 @@
+@startuml
+
+left to right direction
+
+package "Cards"{
+    class Card
+    {
+        - name: std::string
+        - baseHealthEffect: int
+        - baseRespectEffect: int
+        - baseMagicEffect: int
+        - cardType: Type
+
+        + Card(const std::string &n, int hEffect, int rEffect, int mEffect, Type type)
+        + operator==(const Card& another) const: bool
+
+        + getName() const: const std::string&
+        + getHealthEffect() const: int
+        + getRespectEffect() const: int
+        + getMagicEffect() const: int
+        + getType() const: Type 
+    }
+
+
+    enum Type <<enumeration>> 
+    {
+        ATTACK
+        HEAL
+        MAGIC
+        RESPECT
+    }
+
+    class AttackCard
+    {
+        + AttackCard(const std::string& n, int d, int m) : Card(n, d, 0, m, Type::ATTACK)
+    }
+
+    class HealCard
+    {
+        + HealCard(const std::string& name, int heal, int magicCost) : Card(name, heal, 0, magicCost, Type::HEAL)
+    }
+
+    class MagicCard 
+    {
+        + MagicCard(const std::string& name, int magicChange) : Card(name, 0, 0, magicChange, Type::MAGIC)
+    }
+
+    class RespectCard
+    {
+        + RespectCard(const std::string& name, int respectChange, int magicCost) : Card(name, 0, respectChange, magicCost, Type::RESPECT)
+    }
+
+    class Deck
+    {
+        - cards: std::vector<std::unique_ptr<Cards>> 
+
+        + shuffle(): void
+        + drawCard(): std::unique_ptr<Card>
+        + isEmpty(): bool
+        + resetDeck(std::vector<std::unique_ptr<Card>> newCards): void
+        + getCards() const: const std::vector<std::unique_ptr<Card>>& 
+        + addCard(std::unique_ptr<Card> card): void
+    }
+
+    Deck *-- "many" Card 
+    Card -- Type : >
+    AttackCard --|> Card
+    HealCard --|> Card
+    MagicCard --|> Card
+    RespectCard --|> Card
+
+}
+
+package "Players"
+{
+    class Character 
+    {
+        - name: std::string
+        - health: int
+        - respect: int
+        + Character(const std::string &n, int h, int r)
+
+        + getName() const: std::string
+        + getHealth() const: int
+        + getRespect() const: int
+        + getHand() const: virtual const std::vector<std::unique_ptr<Card>>&
+        + isAlive() const: bool
+        + needsCards(): virtual bool
+        + wantsToQuit() const: virtual bool
+
+        + changeHealth(int amount): void
+        + changeRespect(int amount): void
+        + ApplyCardEffect(const Card& card, GameManager& game): void
+        + takeTurn(GameManager& game): virtual std::unique_ptr<Card>
+        + drawInitCards(Deck& deck): virtual void 
+    }
+
+    class Player
+    {
+        - hand: std::vector<std::unique_ptr<Card>>
+        - quitRequested: bool 
+
+        + Player(const std::string &n, int h, int r);
+        + playCard(int index): std::unique_ptr<Card>
+        + drawCard(Deck& deck): void
+        + drawInitCards(Deck& deck) override: virtual void
+
+        + clearHand(): void
+        + getHand() const override: const std::vector<std::unique_ptr<Card>>&
+        + takeTurn(GameManager& game) override: std::unique_ptr<Card>
+    }
+
+    class Bot
+    {
+        - hand: std::vector<std::unique_ptr<Card>>
+        - botDifficulty: Difficulty
+        + Bot(const std::string &n, int h, int r, Difficulty d)
+
+        + drawCard(Deck& deck): void
+        + needsCards() override: bool
+        + playCard(int index): std::unique_ptr<Card>
+        + makeStupidMove(): std::unique_ptr<Card>
+        + takeTurn(GameManager& game) override: std::unique_ptr<Card>
+
+        + clearHand(): void
+        + getHand() const override: const std::vector<std::unique_ptr<Card>>&
+    }
+
+    enum Difficulty <<enumeration>> 
+    {
+        EASY
+        MEDIUM
+        HARD
+    }
+
+    Bot -- Difficulty : >
+    Bot --|> Character
+    Player --|> Character
+    Character *-- "many" Card 
+}
+
+package "Game"
+{
+    package "Managers and states" 
+    {
+        class GameManager
+        {
+            - currentState: std::unique_ptr<GameState> 
+            - deck: Deck& 
+            - players: std::vector<std::unique_ptr<Character>>
+            - magicPool: int 
+            - currentPlayer: Character* 
+            - activeSpirits: std::vector<std::unique_ptr<Spirit>>
+
+            + GameManager(Deck& d);
+            + addPlayer(std::unique_ptr<Character> player): void
+            + getPlayers() const: const std::vector<std::unique_ptr<Character>>& 
+            + getDeck(): Deck& 
+            + clearPlayers(): void 
+            + getCurrentPlayer(): Character* 
+            + setCurrentPlayer(Character* player): void
+
+            + getMagicPool() const: int 
+            + updateMagicPool(int amount): void 
+            + shouldAmplify() const: bool 
+            + resetMagicPool(): void 
+
+            + addSpirit(std::unique_ptr<Spirit> spirit): void 
+            + processSpirits(): void 
+            + run(): void 
+            + setState(std::unique_ptr<GameState> state): void
+        }
+
+        class TurnManager
+        {
+            - players:  const std::vector<std::unique_ptr<Character>>& 
+            - currentPlayerIndex: int
+
+            + TurnManager(const std::vector<std::unique_ptr<Character>>& playerList);
+            + nextTurn(): void 
+            + getCurrentPlayer(): Character* 
+            + isGameOver(): bool 
+            + reset(): void 
+        }
+
+        class Gamestate
+        {
+            + enterState(GameManager& game): virtual void 
+            + updateState(GameManager& game): virtual void 
+            + exitState(GameManager& game): virtual void 
+        }
+
+        class MainMenuState
+        {
+            + enterState(GameManager& game) override: void 
+            + updateState(GameManager& game) override: void 
+            + exitState(GameManager& game) override: void 
+        }
+
+        class SetupState 
+        {
+            - deck: Deck&
+
+            + SetupState (Deck& deck);
+            + enterState(GameManager& game) override: void
+            + updateState(GameManager& game) override: void 
+            + exitState(GameManager& game) override: void 
+
+            + initPlayers(GameManager& game): void 
+            + initHands(GameManager& game): void 
+        }
+
+        class PlayingState
+        {
+            - turnManager: std::unique_ptr<TurnManager> 
+            - deck: Deck& 
+            - counter: int 
+
+            + PlayingState(GameManager& game);
+
+            + enterState(GameManager& game) override: void 
+            + updateState(GameManager& game) override: void 
+            + exitState(GameManager& game) override: void 
+
+            + processTurn(GameManager& game): void 
+            + isGameOver(GameManager& game) const: bool 
+        }
+
+        class EndGameState
+        {
+            - winner: Character* 
+
+            + EndGameState(Character* winner);
+            + enterState(GameManager& game) override: virtual void 
+            + updateState(GameManager& game) override: virtual void 
+            + exitState(GameManager& game) override: virtual void 
+        }
+
+        MainMenuState --|> Gamestate
+        SetupState --|> Gamestate
+        PlayingState --|> Gamestate
+        EndGameState --|> Gamestate
+        GameState ..> GameManager 
+        TurnManager -- "many" Character 
+
+        GameManager *-- "1" GameState
+        GameManager *-- "many" Character
+        GameManager *-- "many" Spirit
+        GameManager -- "1" Deck 
+        PlayingState *-- "1" TurnManager 
+        PlayingState -- "1" Deck 
+        SetupState -- "1" Deck 
+
+        Character ..> GameManager 
+        PlayingState ..> EndGameState 
+        PlayingState ..> MainMenuState 
+        SetupState ..> PlayingState 
+        SetupState ..> Player 
+        SetupState ..> Bot  
+        EndGameState ..> SetupState 
+        EndGameState ..> MainMenuState 
+        MainMenuState ..> SetupState 
+    }
+
+    package "Spirits" 
+    {
+        abstract class Spirit
+        {
+            - target: Character* 
+            - duration: int 
+
+            + Spirit(Character* target, int duration);
+            + applyEffect(): virtual void 
+            + getTarget(): Character* 
+            + update(): bool 
+        }
+
+        class EvilSpirit
+        {
+            + EvilSpirit(Character* target)
+            + applyEffect() override: void 
+        }
+
+        class GoodSpirit
+        {
+            + GoodSpirit(Character* target)
+            + applyEffect() override: void 
+        }
+
+        class MagicWizard 
+        {
+            - game: GameManager&
+
+            + MagicWizard(Character* target)
+            + applyEffect() override: void 
+        }
+
+        EvilSpirit --|> Spirit
+        GoodSpirit --|> Spirit
+        MagicWizard --|> Spirit
+        Spirit -- "1" Character 
+        MagicWizard ..> GameManager 
+    }
+}
+
+package "Utilities" 
+{
+    class Console <<Utility>> 
+    {
+        {static} print(const std::string& message): void
+        {static} printError(const std::string& message): void
+        {static} printFatalError(const std::string& message): void
+        {static} printSeparator(): void
+        {static} printEmptyLine(): void
+        {static} pause(std::chrono::milliseconds durations): void
+        {static} loadAnimation(const std::string& message, int steps, std::chrono::milliseconds delay): void
+        {static} printGameStatus(GameManager& game, int counter, Character& currentPlayer): void
+        {static} printPlayerHand(const Character& player): void
+        {static} printTurn(const Character& currentPlayer): void
+        {static} printPlayedCard(const Character& player, const Card& card): void
+        {static} printNeedsCardsMessage(const Character& player): void
+        {static} printQuitMessage(const Character& player): void
+        {static} printGameOver(const Character* winner): void
+        {static} printSpiritEffect(const Character& target, const std::string& effectMessage): void
+        {static} printFailedToPlayCard(const Character& player): void
+        {static} printMenu(const std::vector<std::string>& options): void
+        {static} printInvalidInput(const std::string& message): void
+        {static} printEnterState(const std::string& stateName): void
+        {static} printExitState(const std::string& stateName): void
+        {static} typeToString(Card::Type type): std::string
+        {static} printAdditionalInfo(const Card& card): void
+    }
+
+    class InputManager <<Utility>> 
+    {
+        {static} getStringInput(): std::string
+        {static} getInt(int min, int max): int
+        {static} getMenuChoice(): int
+        {static} clearBuffer(): void
+    }
+
+    Console ..> GameManager 
+    Console ..> Character 
+    Console ..> Card 
+    InputManager ..> Console 
+}
+
+Character ..> GameManager
+Player ..> GameManager
+Bot ..> GameManager
+Bot ..> Difficulty
+GameManager *-- GameState
+GameManager *-- Character
+GameManager *-- Spirit
+GameManager -- Deck
+GameState ..> GameManager
+PlayingState *-- TurnManager
+PlayingState -- Deck
+SetupState -- Deck
+Spirit -- Character
+MagicWizard ..> GameManager
+TurnManager -- Character
+
+Character ..> Console
+Player ..> Console
+Player ..> InputManager
+Bot ..> Console
+Bot ..> InputManager
+Deck ..> Console
+GameManager ..> Console
+GameManager ..> Spirit
+GameState ..> Console
+EndGameState ..> Console
+EndGameState ..> InputManager
+MainMenuState ..> Console
+MainMenuState ..> InputManager
+PlayingState ..> Console
+SetupState ..> Console
+SetupState ..> InputManager
+Spirit ..> Console
+EvilSpirit ..> Console
+GoodSpirit ..> Console
+MagicWizard ..> Console
+
+@enduml

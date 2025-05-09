@@ -4,7 +4,13 @@
 
 class AttackCard : public Card
 {
-public: // public bc we have separate file only with cards
+public:
+    /**
+     * @brief Class AttackCard constructor.
+     * @param n Card name.
+     * @param d Card damage (health effect).
+     * @param m Card magic effect.
+    */
     AttackCard(const std::string& n, int d, int m) : Card(n, d, 0, m, Type::ATTACK) {}
 };
 

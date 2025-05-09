@@ -66,35 +66,45 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
         game.resetMagicPool();
     }
 
+    int respectRatio = std::abs(this->getRespect() - opponent->getRespect());
+    
     switch(card.getType())
     {
         case Card::Type::ATTACK:
         {
-            if(rand() % 100 < 7)
+            int chance = 11 - this->getRespect() / respectRatio;
+            if (chance < 5) chance = 6;
+            if (chance < 0) chance = 1;
+            if(rand() % 100 < chance)
             {
                 game.addSpirit(std::make_unique<EvilSpirit>(this));
             }
             opponent->changeHealth(-h);
             this->changeRespect(-r);
-            game.updateMagicPool(-std::abs(m));
+            game.updateMagicPool(-m);
             break;
         }
         
         case Card::Type::HEAL:
         {
-            if(rand() %  100 < 7)
+            int chance = 9 + this->getRespect() / respectRatio;
+            if (chance > 21) chance = 21;
+            if(rand() % 100 < chance)
             {
                 game.addSpirit(std::make_unique<GoodSpirit>(this));
             }
             this->changeHealth(h);
-            opponent->changeRespect(r);
-            game.updateMagicPool(-std::abs(m));
+            this->changeRespect(-r);
+            game.updateMagicPool(-m);
             break;
         }
 
         case Card::Type::MAGIC:
         {
-            if(rand() % 100 < 7)
+            int chance = 11 - this->getRespect() / respectRatio;
+            if (chance < 5) chance = 6;
+            if (chance < 0) chance = 1;
+            if(rand() % 100 < chance)
             {
                 game.addSpirit(std::make_unique<MagicWizard>(this, game));
             }
@@ -106,13 +116,16 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
 
         case Card::Type::RESPECT:
         {
-            if(rand() % 100 < 7)
+            int chance = 12 - this->getRespect() / respectRatio;
+            if (chance < 5) chance = 6;
+            if (chance < 0) chance = 1;
+            if(rand() % 100 < chance)
             {
                 Console::print("Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался..");
             }
             this->changeRespect(r);
             this->changeHealth(-h);
-            game.updateMagicPool(-std::abs(m));
+            game.updateMagicPool(-m);
             break;
         }
 
