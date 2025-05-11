@@ -2,11 +2,11 @@
 ## Author
 Andikalovskiy Nikita Dmitrievich, 24.B-82mm
 ## Contacts
-st131335@stdudent.spbu.ru
+st131335@student.spbu.ru
 ## Description
-Lab work 2. Card RPG game core with hierarchy of charcters and items based on inheritance.
+Lab work 2. Card RPG game core with hierarchy of characters and items based on inheritance.
 ## Requirements 
-* C++ 17, install if not installed yet:
+* `C++ 17`, install if not installed yet:
 ``` Bash
 sudo apt update
 sudo apt install build-essential
@@ -27,18 +27,29 @@ sudo apt update
 sudo apt install texlive-full
 ```
 ## Build
+``` Bash
 make
+```
 ## Run
+``` Bash
 ./game
+```
 ## Docs
-To get .html:
+* To get .html:
 ```Bash
 doxygen Doxyfile
 ```
-To get .pdf document:
+Generated HTML documentation is located at `docs/html/`. Open `index.html` in your browser.
+
+* To get .pdf document:
 ```Bash
 doxygen Doxyfile && cd docs/latex/ && make 
 ```
+Generated PDF document is `docs/latex/refman.pdf`.
+
+* **UML diagram**
+UML-diagram source is located at `docs/diagram.uml`.
+You can also find pre-generated SVG-image at `docs/diagram.svg`.
 
 
 ## Additional info (Rules)
@@ -63,6 +74,8 @@ There are 4 types of cards:
     2. Heal
     3. Magic
     4. Respect
+
+You can find all the cards from the game in `docs/cards.md`
 
 An important paradigm in this game is that to gain one attribute, you must sacrifice two others. For example, if you want to deal damage to the opponent (using an Attack card) or gain healing (using a Heal card), you will have to incur losses in Magic (from the shared pool) and/or Respect.
 
