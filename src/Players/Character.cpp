@@ -121,7 +121,7 @@ void Character::ApplyCardEffect (const Card& card, GameManager& game)
             if (chance < 0) chance = 1;
             if(rand() % 100 < chance)
             {
-                Console::print("Над вами посмеялись бродяги.. Ничего не поменялось, но осадочек остался..");
+                Console::print("Vagabonds.. Their laughter will be imprinted in your mind.. ");
             }
             this->changeRespect(r);
             this->changeHealth(-h);

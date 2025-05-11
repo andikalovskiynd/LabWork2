@@ -3,6 +3,7 @@
 #include <memory>
 #include "Utilities/Console.h"
 #include "Players/Character.h"
+#include "Game/State/Gamestate.h"
 
 GameManager::GameManager(Deck& d) : currentState(nullptr), deck(d) {}
 
@@ -60,12 +61,12 @@ bool GameManager::shouldAmplify() const
 {
     if (currentPlayer == players[1].get() && magicPool <= -10)
     {
-        Console::print("Магия достигла -10, следуюшая карта " + players[1]->getName() + " будет усилена!");
+        Console::print("Magic is -10, the next card of " + players[1]->getName() + " will be amplified!");
         return true;
     }
     else if (currentPlayer == players[0].get() && magicPool >= 10)
     {
-        Console::print("Магия достигла 10, следуюшая карта " + players[0]->getName() + " будет усилена!");
+        Console::print("Magic is 10, the next card of " + players[0]->getName() + " will be amplified!");
         return true;
     }
     else

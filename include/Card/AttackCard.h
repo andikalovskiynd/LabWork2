@@ -1,5 +1,11 @@
 #ifndef ATTACKCARD_H
 #define ATTACKCARD_H
+
+/**
+ * @file AttackCard.h
+ * @brief Header file which contains attack card.
+*/
+
 #include "Card/Card.h"
 
 class AttackCard : public Card

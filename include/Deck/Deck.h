@@ -1,5 +1,11 @@
 #ifndef DECK_H
 #define DECK_H
+
+/**
+ * @file Deck.h 
+ * @brief Header file which contains deck. 
+*/
+
 #include <vector>
 #include <random>
 #include <memory>

@@ -9,12 +9,12 @@ void MagicWizard::applyEffect()
     if (creator == game.getPlayers()[0].get())
     {
         game.updateMagicPool(-5);
-        Console::printSpiritEffect(*getTarget(), "Кто это?.. Таинственный колдун крадет магию у " + creator->getName());
+        Console::printSpiritEffect(*getTarget(), "Who is that? Magic wizard steals magic from " + creator->getName());
     }
     else if (creator == game.getPlayers()[0].get())
     {
         game.updateMagicPool(5);
-        Console::printSpiritEffect(*getTarget(), "Кто это?.. Таинственный колдун крадет магию у " + creator->getName());
+        Console::printSpiritEffect(*getTarget(), "Who is that? Magic wizard steals magic from " + creator->getName());
     }
     else
     {

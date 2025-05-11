@@ -15,7 +15,7 @@ void EndGameState::enterState(GameManager& game)
 
 void EndGameState::updateState(GameManager& game)
 {
-    Console::printMenu({"1) Начать новую игру", "2) Выйти"});
+    Console::printMenu({"1) Start a new game", "2) Leave"});
     int choice = InputManager::getMenuChoice();
 
     if (choice == 1)
@@ -25,17 +25,17 @@ void EndGameState::updateState(GameManager& game)
 
     else if (choice == 2)
     {
-        Console::print("Выход...");
+        Console::print("Leaving...");
         game.setState(nullptr);
     }
 
     else
     {
-        Console::printInvalidInput("Некорректный выбор. Пожалуйста, введите 1 или 2.");
+        Console::printInvalidInput("Incorrect choice. Please enter 1 or 2.");
     }
 }
 
 void EndGameState::exitState(GameManager& game)
 {
-    Console::print("Выход...");
+    Console::print("Leaving...");
 }

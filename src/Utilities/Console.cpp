@@ -68,28 +68,28 @@ namespace Console
         Character* player2 = players[1].get();
 
         printEmptyLine();
-        std::cout << "--- " << player1->getName() << " против " << player2->getName() << " --- ХОД " << counter << " за игроком "  << currentPlayer.getName() << " ---" << std::endl;
+        std::cout << "--- " << player1->getName() << " versus " << player2->getName() << " --- STEP " << counter << " , Turn: "  << currentPlayer.getName() << " ---" << std::endl;
         printEmptyLine();
 
         pause(std::chrono::milliseconds(250));
 
-        std::cout << "Здоровье " << player1->getName() << " : " << player1->getHealth() << std::endl;
-        std::cout << "Здоровье " << player2->getName() << " : " << player2->getHealth() << std::endl;
+        std::cout << "Health " << player1->getName() << " : " << player1->getHealth() << std::endl;
+        std::cout << "Health " << player2->getName() << " : " << player2->getHealth() << std::endl;
 
         printEmptyLine();
         printSeparator();
         printEmptyLine();
         pause(std::chrono::milliseconds(250));
 
-        std::cout << "Уважение " << player1->getName() << ": " << player1->getRespect() << std::endl;
-        std::cout << "Уважение " << player2->getName() << ": " << player2->getRespect() << std::endl;
+        std::cout << "Respect " << player1->getName() << ": " << player1->getRespect() << std::endl;
+        std::cout << "Respect " << player2->getName() << ": " << player2->getRespect() << std::endl;
 
         printEmptyLine();
         printSeparator();
         printEmptyLine();
         pause(std::chrono::milliseconds(250));
 
-        std::cout << "Магия: " << game.getMagicPool() << std::endl;
+        std::cout << "Magic: " << game.getMagicPool() << std::endl;
 
         printEmptyLine();
         printSeparator();
@@ -105,18 +105,18 @@ namespace Console
     void printPlayerHand(const Character& player)
     {
         const auto& hand = player.getHand(); 
-        std::cout << "Карты " << player.getName() << " : " << std::endl;
+        std::cout << player.getName() << "'s cards: " << std::endl;
 
         if (hand.empty())
         {
-            std::cout << "    (Пусто)" << std::endl;
+            std::cout << "    (Empty)" << std::endl;
         }
         else
         {
             for (size_t i = 0; i < hand.size(); ++i)
             {
                 pause(std::chrono::milliseconds(250));
-                std::cout << "      " << i << ") " << hand[i]->getName() << " (здоровье: " << hand[i]->getHealthEffect() << ", магия: " << hand[i]->getMagicEffect() << ", уважение: " << hand[i]->getRespectEffect() << ", тип: "<< typeToString(hand[i]->getType()) << ")" << std::endl;
+                std::cout << "      " << i << ") " << hand[i]->getName() << " (health: " << hand[i]->getHealthEffect() << ", magic: " << hand[i]->getMagicEffect() << ", respect: " << hand[i]->getRespectEffect() << ", type: "<< typeToString(hand[i]->getType()) << ")" << std::endl;
             }
         }
         printEmptyLine();
@@ -125,7 +125,7 @@ namespace Console
     void printTurn(const Character& currentPlayer)
     {
         printEmptyLine();
-        std::cout << "Ход " << currentPlayer.getName() << "." << std::endl;
+        std::cout << "Turn for " << currentPlayer.getName() << "." << std::endl;
         printEmptyLine();
         printSeparator();
         printEmptyLine();
@@ -135,30 +135,30 @@ namespace Console
     {
         printEmptyLine();
         printSeparator();
-        std::cout << player.getName() << " сыграл карту " << card.getName() << std::endl;
+        std::cout << player.getName() << " played card " << card.getName() << std::endl;
         printSeparator();
         printEmptyLine();
     }
 
     void printNeedsCardsMessage(const Character& player)
     {
-        std::cout << player.getName() << " добирает карты." << std::endl;
+        std::cout << player.getName() << " gathers cards." << std::endl;
     }
 
     void printQuitMessage(const Character& player)
     {
-        std::cout << player.getName() << " запросил выход в главное меню." << std::endl;
+        std::cout << player.getName() << " asked to quit." << std::endl;
     }
 
     void printGameOver(const Character* winner)
     {
         if (winner)
         {
-            std::cout << "Игра окончена. Победитель: " << winner->getName() << std::endl;
+            std::cout << "Game over! Winner: " << winner->getName() << std::endl;
         }
         else
         {
-            std::cout << "Ничья. Не выжил никто..." << std::endl;
+            std::cout << "Draw! No one left the battlefield.." << std::endl;
         }
     }
 
@@ -169,7 +169,7 @@ namespace Console
 
     void printFailedToPlayCard(const Character& player)
     {
-        std::cout << player.getName() << " не сыграл карту." << std::endl;
+        std::cout << player.getName() << " failed to play a card." << std::endl;
     }
 
     // Input 
@@ -190,14 +190,14 @@ namespace Console
     void printEnterState(const std::string& stateName)
     {
         printEmptyLine();
-        std::cout << "--- Вход в состояние: " << stateName << " ---" << std::endl;
+        std::cout << "--- Entering: " << stateName << " ---" << std::endl;
         printEmptyLine();
     }
 
     void printExitState(const std::string& stateName)
     {
         printEmptyLine();
-        std::cout << "--- Выход из состояния: " << stateName << " ---" << std::endl;
+        std::cout << "--- Leaving: " << stateName << " ---" << std::endl;
         printEmptyLine();
     }
 
@@ -205,10 +205,10 @@ namespace Console
     {
         switch(type)
         {
-            case Card::Type::ATTACK: return "Атакующая";
-            case Card::Type::HEAL: return "Лечащая";
-            case Card::Type::MAGIC: return "Магическая";
-            case Card::Type::RESPECT: return "Уважение";
+            case Card::Type::ATTACK: return "Attack";
+            case Card::Type::HEAL: return "Heal";
+            case Card::Type::MAGIC: return "Magic";
+            case Card::Type::RESPECT: return "Respect";
             default: return "UNKNOWN TYPE";
         }
     }
@@ -217,39 +217,39 @@ namespace Console
     {
         printSeparator();
         printEmptyLine();
-        std::cout << "--- Информация по карте " << card.getName() << " ---" << std::endl;
+        std::cout << "--- Information for " << card.getName() << " ---" << std::endl;
         printEmptyLine();
-        std::cout << "Тип карты: " << typeToString(card.getType()) << std::endl;
+        std::cout << "Type: " << typeToString(card.getType()) << std::endl;
         printEmptyLine();
-        std::cout << "Эффекты: " << std::endl;
+        std::cout << "Effects: " << std::endl;
         switch(card.getType())
         {
             case Card::Type::ATTACK:
-            std::cout << "  Урон противнику: " << card.getHealthEffect() << std::endl;
-            std::cout << "  Магии уйдет в пользу врагу: " << card.getMagicEffect() << std::endl;
-            std::cout << "  Ваша потеря уважения: " << card.getRespectEffect() << std::endl;
+            std::cout << "  Damage to opponent: " << card.getHealthEffect() << std::endl;
+            std::cout << "  Magic in favor of opponent: " << card.getMagicEffect() << std::endl;
+            std::cout << "  Your respect loss: " << card.getRespectEffect() << std::endl;
             break;
 
             case Card::Type::HEAL:
-            std::cout << "  Лечение: " << card.getHealthEffect() << std::endl;
-            std::cout << "  Магии уйдет в пользу врагу: " << card.getMagicEffect() << std::endl;
-            std::cout << "  Ваша потеря уважения: " << card.getRespectEffect() << std::endl;
+            std::cout << "  Healing: " << card.getHealthEffect() << std::endl;
+            std::cout << "  Magic in favor of opponent: " << card.getMagicEffect() << std::endl;
+            std::cout << "  Your respect loss: " << card.getRespectEffect() << std::endl;
             break;
 
             case Card::Type::MAGIC:
-            std::cout << "  Урон вам: " << card.getHealthEffect() << std::endl;
-            std::cout << "  Магии в вашу пользу: " << card.getMagicEffect() << std::endl;
-            std::cout << "  Ваша потеря уважения: " << card.getRespectEffect() << std::endl;
+            std::cout << "  Damage to you: " << card.getHealthEffect() << std::endl;
+            std::cout << "  Magic in your favor: " << card.getMagicEffect() << std::endl;
+            std::cout << "  Your respect loss: " << card.getRespectEffect() << std::endl;
             break;
 
             case Card::Type::RESPECT:
-            std::cout << "  Урон вам: " << card.getHealthEffect() << std::endl;
-            std::cout << "  Магии уйдет в пользу противника: " << card.getMagicEffect() << std::endl;
-            std::cout << "  Повышение вашего уважения: " << card.getRespectEffect() << std::endl; 
+            std::cout << "  Damage to you: " << card.getHealthEffect() << std::endl;
+            std::cout << "  Magic in favor of opponent: " << card.getMagicEffect() << std::endl;
+            std::cout << "  Your respect increase: " << card.getRespectEffect() << std::endl; 
             break;
 
             default:
-            print("Информация недоступна.");
+            print("Information is unavailable.");
             break;
         }
         printEmptyLine();

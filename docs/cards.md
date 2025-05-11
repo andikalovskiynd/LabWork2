@@ -1,35 +1,36 @@
-## Атакующие карты  
-1) Удар меча, 5 урона, 3 магии уйдет в пользу врагу, 0 потери уважения.
-2) Огненный шар, 8 урона, 5 магии уйдет в пользу врагу, 0 потери уважения.
-3) Ледяная стрела, 4 урона, 2 магии уйдет в пользу врагу, 0 потери уважения.
-4) Кинжал тьмы, 6 урона, 4 магии уйдет в пользу врагу, 0 потери уважения.
-5) Громовой удар, 7 урона, 3 магии уйдет в пользу врагу, 0 потери уважения.
-6) Ядовитый шип, 3 урона, 1 магии уйдет в пользу врагу, 0 потери уважения.
-7) Кровавый клинок, 9 урона, 6 магии уйдет в пользу врагу, 0 потери уважения.
-8) Каменный кулак, 5 урона, 3 магии уйдет в пользу врагу, 0 потери уважения.
-9) Вихрь, 4 урона, 2 магии уйдет в пользу врагу, 0 потери уважения.
-10) Смертельный укус, 10 урона, 7 магии уйдет в пользу врагу, 0 потери уважения.
+# Cards 
 
-## Лечащие карты
-11) Малое исцеление, 6 лечения, 2 магии уйдет в пользу врагу, 0 потери уважения.
-12) Божественный свет, 10 лечения, 5 магии уйдет в пользу врагу, 0 потери уважения.
-13) Регенерация, 4 лечения, 1 магии уйдет в пользу врагу, 0 потери уважения.
-14) Эликсир жизни, 12 лечения, 6 магии уйдет в пользу врагу, 0 потери уважения.
-15) Ритуал восстановления, 8 лечения, 3 магии уйдет в пользу врагу, 0 потери уважения.
+## Attack Cards
+1. Sword Attack, 5 damage, 3 magic goes to enemy, 0 respect loss.
+2. Fireball, 8 damage, 5 magic goes to enemy, 0 respect loss.
+3. Frost Arrow, 4 damage, 2 magic goes to enemy, 0 respect loss.
+4. Dark Dagger, 6 damage, 4 magic goes to enemy, 0 respect loss.
+5. Thunder Strike, 7 damage, 3 magic goes to enemy, 0 respect loss.
+6. Poison Thorn, 3 damage, 1 magic goes to enemy, 0 respect loss.
+7. Blood Blade, 9 damage, 6 magic goes to enemy, 0 respect loss.
+8. Stone Fist, 5 damage, 3 magic goes to enemy, 0 respect loss.
+9. Whirlwind, 4 damage, 2 magic goes to enemy, 0 respect loss.
+10. Deadly Bite, 10 damage, 7 magic goes to enemy, 0 respect loss.
 
-## Магические карты
+## Healing cards
+11. Minor Healing, 6 healing, 2 magic goes to enemy, 0 respect loss.
+12. Divine Light, 10 healing, 5 magic goes to enemy, 0 respect loss.
+13. Regeneration, 4 healing, 1 magic goes to enemy, 0 respect loss.
+14. Elixir of Life, 12 healing, 6 magic goes to enemy, 0 respect loss.
+15. Restoration Ritual, 8 healing, 3 magic goes to enemy, 0 respect loss.
 
-16) Взрыв маны, 0 урона себе, 7 магии в свою пользу, 0 потери уважения.
-17) Поглощение, 0 урона себе, 4 магии в свою пользу, 0 потери уважения.
-18) Магический щит, 0 урона себе, 5 магии в свою пользу, 0 потери уважения.
-19) Искажение, 0 урона себе, 3 магии в свою пользу, 0 потери уважения.
-20) Сфера хаоса, 0 урона себе, 10 магии в свою пользу, 0 потери уважения.
-21) Проклятие пустоты, 0 урона себе, 8 магии в свою пользу, 0 потери уважения.
-22) Энергетический вихрь, 0 урона себе, 6 магии в свою пользу, 0 потери уважения.
+## Magic cards
+16. Mana Burst, 0 damage to self, 7 magic to self, 0 respect loss.
+17. Absorption, 0 damage to self, 4 magic to self, 0 respect loss.
+18. Magic Shield, 0 damage to self, 5 magic to self, 0 respect loss.
+19. Distortion, 0 damage to self, 3 magic to self, 0 respect loss.
+20. Sphere of Chaos, 0 damage to self, 10 magic to self, 0 respect loss.
+21. Curse of Emptiness, 0 damage to self, 8 magic to self, 0 respect loss.
+22. Energy Vortex, 0 damage to self, 6 magic to self, 0 respect loss.
 
-## Карты уважения
-23) Поклон, 0 урона себе, 1 магии в пользу противника, 4 уважения себе.
-24) Оскорбление, 0 урона себе, 2 магии в пользу противника, 3 уважения себе. 
-25) Речь лидера, 0 урона себе, 3 магии в пользу противника, 7 уважения себе.
-26) Подкуп, 0 урона себе, 5 магии в пользу противника, 10 уважения себе.
-27) Благородный жест, 0 урона себе, 2 магии в пользу противника, 6 уважения себе.
+## Respect cards
+23. Bow, 0 damage to self, 1 magic to enemy, 4 respect to self.
+24. Insult, 0 damage to self, 2 magic to enemy, 3 respect to self.
+25. Leader's Speech, 0 damage to self, 3 magic to enemy, 7 respect to self.
+26. Bribe, 0 damage to self, 5 magic to enemy, 10 respect to self.
+27. Noble Gesture, 0 damage to self, 2 magic to enemy, 6 respect to self.

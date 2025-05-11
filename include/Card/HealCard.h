@@ -1,5 +1,11 @@
 #ifndef HEALCARD_H
 #define HEALCARD_H
+
+/**
+ * @file HealCard.h 
+ * @brief Header file which contains healing card.
+*/
+
 #include "Card/Card.h"
 
 class HealCard : public Card

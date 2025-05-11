@@ -9,9 +9,9 @@ void MainMenuState::enterState(GameManager& game)
 {
     Console::printEmptyLine();
     Console::printEnterState("Main menu");
-    Console::print("Добро пожаловать!");
+    Console::print("Welcome!");
     Console::printEmptyLine();
-    Console::printMenu({"1) Начать новую игру", "2) Выйти "});
+    Console::printMenu({"1) Start a new game", "2) Leave "});
     Console::printEmptyLine();
     Console::printSeparator();
 }
@@ -27,13 +27,13 @@ void MainMenuState::updateState(GameManager& game)
 
     else if (choice == 2)
     {
-        Console::print("Выход...");
+        Console::print("Leaving...");
         game.setState(nullptr);
     }
 
     else
     {
-        Console::printInvalidInput("Некорректный выбор. Пожалуйста, введите 1 или 2.");
+        Console::printInvalidInput("Incorrect choice. Please enter 1 or 2.");
     }
 }
 

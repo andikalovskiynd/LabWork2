@@ -79,10 +79,8 @@ std::unique_ptr<Card> Bot::makeStupidMove()
 
 std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 {
-    Console::print("Думает");
+    Console::print("Thinking..");
     Console::pause(std::chrono::milliseconds(200));
-    Console::print("Все еще думает..");
-    Console::pause(std::chrono::milliseconds(100));
     
     const auto& players = game.getPlayers();
     Character* opponent = nullptr;
@@ -512,7 +510,6 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 
             if (bestCardIndex != -1)
             {
-                Console::print("Бот выбрал карту с индексом: " + std::to_string(bestCardIndex) + " (оценка: " + std::to_string(bestScore) + ")");
                 playedCard = playCard(bestCardIndex);
             }
 

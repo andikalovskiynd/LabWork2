@@ -7,5 +7,5 @@ EvilSpirit::EvilSpirit(Character* target) : Spirit(target, 1) {}
 void EvilSpirit::applyEffect()
 {
     getTarget()->changeHealth(-10);
-    Console::printSpiritEffect(*getTarget(), "Неудача! Злой дух решил атаковать " + getTarget()->getName());
+    Console::printSpiritEffect(*getTarget(), "Unluck! Evil spirit attacks " + getTarget()->getName());
 }

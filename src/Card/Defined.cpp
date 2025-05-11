@@ -6,39 +6,39 @@ std::vector<std::unique_ptr<Card>> createCollection()
     collection.reserve(26);
 
     // attack
-    collection.push_back(std::make_unique<AttackCard>("Удар меча", 5, 3));
-    collection.push_back(std::make_unique<AttackCard>("Огненный шар", 8, 5));
-    collection.push_back(std::make_unique<AttackCard>("Ледяная стрела", 4, 2));
-    collection.push_back(std::make_unique<AttackCard>("Кинжал тьмы", 6, 4));
-    collection.push_back(std::make_unique<AttackCard>("Громовой удар", 7, 3));
-    collection.push_back(std::make_unique<AttackCard>("Ядовитый шип", 3, 1));
-    collection.push_back(std::make_unique<AttackCard>("Кровавый клинок", 9, 6));
-    collection.push_back(std::make_unique<AttackCard>("Каменный кулак", 5, 3));
-    collection.push_back(std::make_unique<AttackCard>("Вихрь", 4, 2));
-    collection.push_back(std::make_unique<AttackCard>("Смертельный укус", 10, 7));
+    collection.push_back(std::make_unique<AttackCard>("Sword Attack", 5, 3));
+    collection.push_back(std::make_unique<AttackCard>("Fireball", 8, 5));
+    collection.push_back(std::make_unique<AttackCard>("Frost Arrow", 4, 2));
+    collection.push_back(std::make_unique<AttackCard>("Dark Dagger", 6, 4));
+    collection.push_back(std::make_unique<AttackCard>("Thunder Strike", 7, 3));
+    collection.push_back(std::make_unique<AttackCard>("Poison Thorn", 3, 1));
+    collection.push_back(std::make_unique<AttackCard>("Blood Blade", 9, 6));
+    collection.push_back(std::make_unique<AttackCard>("Stone Fist", 5, 3));
+    collection.push_back(std::make_unique<AttackCard>("Whirlwind", 4, 2));
+    collection.push_back(std::make_unique<AttackCard>("Deadly Bite", 10, 7));
 
     // healing
-    collection.push_back(std::make_unique<HealCard>("Малое исцеление", 6, 2));
-    collection.push_back(std::make_unique<HealCard>("Божественный свет", 10, 5));
-    collection.push_back(std::make_unique<HealCard>("Регенерация", 4, 1));
-    collection.push_back(std::make_unique<HealCard>("Эликсир жизни", 12, 6));
-    collection.push_back(std::make_unique<HealCard>("Ритуал восстановления", 8, 3));
+    collection.push_back(std::make_unique<HealCard>("Minor Healing", 6, 2));
+    collection.push_back(std::make_unique<HealCard>("Divine Light", 10, 5));
+    collection.push_back(std::make_unique<HealCard>("Regeneration", 4, 1));
+    collection.push_back(std::make_unique<HealCard>("Elixir of Life", 12, 6)); 
+    collection.push_back(std::make_unique<HealCard>("Restoration Ritual", 8, 3)); 
 
     // magic
-    collection.push_back(std::make_unique<MagicCard>("Взрыв маны", 7));
-    collection.push_back(std::make_unique<MagicCard>("Поглощение", 4));
-    collection.push_back(std::make_unique<MagicCard>("Магический щит", 5));
-    collection.push_back(std::make_unique<MagicCard>("Искажение", 3));
-    collection.push_back(std::make_unique<MagicCard>("Сфера хаоса", 10));
-    collection.push_back(std::make_unique<MagicCard>("Проклятие пустоты", 8));
-    collection.push_back(std::make_unique<MagicCard>("Энергетический вихрь", 6));
+    collection.push_back(std::make_unique<MagicCard>("Mana Burst", 7));
+    collection.push_back(std::make_unique<MagicCard>("Absorption", 4));
+    collection.push_back(std::make_unique<MagicCard>("Magic Shield", 5));
+    collection.push_back(std::make_unique<MagicCard>("Distortion", 3));
+    collection.push_back(std::make_unique<MagicCard>("Sphere of Chaos", 10));
+    collection.push_back(std::make_unique<MagicCard>("Curse of Emptiness", 8));
+    collection.push_back(std::make_unique<MagicCard>("Energy Vortex", 6));
 
     // respect
-    collection.push_back(std::make_unique<RespectCard>("Поклон", 4, 1));
-    collection.push_back(std::make_unique<RespectCard>("Оскорбление", 3, 2));
-    collection.push_back(std::make_unique<RespectCard>("Речь лидера", 7, 3));
-    collection.push_back(std::make_unique<RespectCard>("Подкуп", 10, 5));
-    collection.push_back(std::make_unique<RespectCard>("Благородный жест", 6, 2));
+    collection.push_back(std::make_unique<RespectCard>("Bow", 4, 1));
+    collection.push_back(std::make_unique<RespectCard>("Insult", 3, 2));
+    collection.push_back(std::make_unique<RespectCard>("Leader's Speech", 7, 3));
+    collection.push_back(std::make_unique<RespectCard>("Bribe", 10, 5));
+    collection.push_back(std::make_unique<RespectCard>("Noble Gesture", 6, 2));
 
     return collection;
 }

@@ -7,5 +7,5 @@ GoodSpirit::GoodSpirit(Character* target) : Spirit(target, 1) {}
 void GoodSpirit::applyEffect()
 {
     getTarget()->changeHealth(10);
-    Console::printSpiritEffect(*getTarget(), "Удача! " + getTarget()->getName() + " повезло! Исцеляющий дух пришел на помощь!");
+    Console::printSpiritEffect(*getTarget(), "Wow! " + getTarget()->getName() + " is lucky! Healing spirit is here!");
 }

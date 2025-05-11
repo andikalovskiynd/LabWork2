@@ -17,7 +17,7 @@ void SetupState::enterState(GameManager& game)
     game.getDeck().resetDeck(std::move(collection));
     initPlayers(game);
     initHands(game);
-    Console::loadAnimation("Вход в игровое пространство...", 3, std::chrono::seconds(1));
+    Console::loadAnimation("Entering playing state...", 3, std::chrono::seconds(1));
     game.setState(std::make_unique<PlayingState>(game));
 }
 
@@ -29,26 +29,26 @@ void SetupState::initPlayers(GameManager& game)
     game.clearPlayers();
     std::string playerName;
 
-    Console::print("Введите свое имя");
+    Console::print("Enter your name");
     playerName = InputManager::getStringInput();
 
     std::unique_ptr<Character> human = std::make_unique<Player>(playerName, 20, 10);
     game.addPlayer(std::move(human));
 
-    Console::print("Выберите сложность (1-3 от легкого к сложному)");
+    Console::print("Choose difficulty (1-3 from easy to hard)");
     int difficulty = InputManager::getInt(1, 3);
 
     std::unique_ptr<Character> bot;
     Difficulty botDiff;
     switch (difficulty)
     {
-        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Валера", 15, 5, Difficulty::EASY); break;
-        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Антон", 20, 10, Difficulty::MEDIUM); break;
-        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Богдан", 25, 20, Difficulty::HARD); break;
+        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Valera", 15, 5, Difficulty::EASY); break;
+        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Anton", 20, 10, Difficulty::MEDIUM); break;
+        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Bogdan", 25, 20, Difficulty::HARD); break;
         default: 
-            Console::printInvalidInput("Некорректный ввод. Выбрана легкая сложность. ");
+            Console::printInvalidInput("Incorrect input. Difficulty is set to easy. ");
             botDiff = Difficulty::EASY;
-            bot = std::make_unique<Bot>("Анатолий", 15, 5, Difficulty::EASY);
+            bot = std::make_unique<Bot>("Anatoliy", 15, 5, Difficulty::EASY);
             break;
     }
 

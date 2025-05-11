@@ -5,6 +5,27 @@ Andikalovskiy Nikita Dmitrievich, 24.B-82mm
 st131335@stdudent.spbu.ru
 ## Description
 Lab work 2. Card RPG game core with hierarchy of charcters and items based on inheritance.
+## Requirements 
+* C++ 17, install if not installed yet:
+``` 
+sudo apt update
+sudo apt install build-essential
+```
+* `make`, install if not installed yet:
+```
+sudo apt update
+sudo apt install make
+```
+* `Doxygen`, install if not installed yet:
+```
+sudo apt update
+sudo apt install doxygen
+```
+* `LaTeX`, install if not installed yet:
+```
+sudo apt update
+sudo apt install texlive-full
+```
 ## Build
 make
 ## Run
@@ -27,10 +48,10 @@ Your goal is to reduce the opponent's Health to zero, but you should also keep i
 
 There are 4 types of cards:
 
-    1) Attack
-    2) Heal
-    3) Magic
-    4) Respect
+    1. Attack
+    2. Heal
+    3. Magic
+    4. Respect
 
 An important paradigm in this game is that to gain one attribute, you must sacrifice two others. For example, if you want to deal damage to the opponent (using an Attack card) or gain healing (using a Heal card), you will have to incur losses in Magic (from the shared pool) and/or Respect.
 

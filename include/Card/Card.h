@@ -1,5 +1,11 @@
 #ifndef CARD_H
 #define CARD_H
+
+/**
+ * @file Card.h
+ * @brief Header file which contains card and all of its characteristics. 
+*/
+
 #include <string>
 
 /**

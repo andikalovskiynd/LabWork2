@@ -7,6 +7,11 @@
 #include <memory>
 
 /**
+ * @file Defined.h
+ * @brief Includes method that creates collection of all existing cards. 
+*/
+
+/**
  * @brief Function that creates collection from already defined cards.
  * @return Vector with unique pointers on 'Card' objects. 
 */

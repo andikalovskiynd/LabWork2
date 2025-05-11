@@ -15,7 +15,7 @@ namespace InputManager
         std::getline(std::cin >> std::ws, input);
         while (input.empty()) 
         {
-            Console::printInvalidInput("Ввод не может быть пустым.");
+            Console::printInvalidInput("Input must not be empty.");
             std::getline(std::cin >> std::ws, input);
         }
         return input;
@@ -38,18 +38,18 @@ namespace InputManager
                     }
                     else
                     {
-                        Console::printInvalidInput("Значение находится вне допустимого диапазона");
+                        Console::printInvalidInput("Out of range.");
                     }
                 }
-                else // чтобы не забивать ввод и не плодить ошибки!
+                else 
                 {
-                    Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите ТОЛЬКО число.");
+                    Console::printInvalidInput("Incorrect input. Please enter ONLY a number");
                     clearBuffer();
                 }
             }
             else
             {
-                Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число.");
+                Console::printInvalidInput("Incorrect input. Please enter a number.");
                 clearBuffer();
             }
         }
@@ -74,14 +74,14 @@ namespace InputManager
 
                 else 
                 {
-                    Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите ТОЛЬКО число.");
+                    Console::printInvalidInput("Incorrect input. Please enter ONLY a number");
                     clearBuffer(); 
                 }
             }
 
             else 
             {
-                Console::printInvalidInput("Некорректный ввод. Пожалуйста, введите число.");
+                Console::printInvalidInput("Incorrect input. Please enter a number.");
                 clearBuffer(); 
             }
         }

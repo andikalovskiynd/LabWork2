@@ -1,5 +1,11 @@
 #ifndef MAGICCARD_H
 #define MAGICCARD_H
+
+/**
+ * @file MagicCard.h
+ * @brief Header file which contains magic card.
+*/
+
 #include "Card/Card.h"
 
 class MagicCard : public Card

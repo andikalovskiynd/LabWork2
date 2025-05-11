@@ -17,7 +17,7 @@ std::unique_ptr<Card> Player::playCard(int index)
 
     else
     {
-        Console::print("Вы выбрали карту, которой у вас нет. Думали обмануть систему? Смеется тот, кто смеется последний...");
+        Console::print("You chose card that are not in your hand! You think you're the smart one?..");
         if (!hand.empty())
         {
             std::unique_ptr<Card> chosenCard = std::move(hand.front());
@@ -38,13 +38,13 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
     const auto& currentHand = getHand();
     if (currentHand.empty()) 
     {
-        Console::print("У вас нет карт!");
+        Console::print("You don't have cards!");
         return nullptr;
     }
 
     while (!validInput && !quitAttempt)
     {
-        Console::print("Введите индекс карты (0-" + std::to_string(currentHand.size() - 1) + "), 'quit' для выхода или 'help i' для дополнительной информации: ");
+        Console::print("Enter card index (0-" + std::to_string(currentHand.size() - 1) + "), 'quit' to quit or 'help i' for additional card information: ");
         std::string input = InputManager::getStringInput();
 
         if (input == "quit" || input == "exit") 
@@ -86,7 +86,7 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 
                 if (index < 0 || index >= static_cast<int>(currentHand.size()))
                 {
-                    Console::printInvalidInput("Некорректный индекс. Выберите карту из диапазона от 0 до " + std::to_string(currentHand.size() - 1) + ".");
+                    Console::printInvalidInput("Incorrect index. Choose in range from 0 to " + std::to_string(currentHand.size() - 1) + ".");
                 }
 
                 else
@@ -97,12 +97,12 @@ std::unique_ptr<Card> Player::takeTurn(GameManager& game)
 
             catch (const std::invalid_argument& i) 
             {
-                Console::printInvalidInput("Некорректный ввод.");
+                Console::printInvalidInput("Incorrect input.");
             }
 
             catch (const std::out_of_range& i)
             {
-                Console::printInvalidInput("Введенное число слишком большое или маленькое, попробуйте еще раз.");
+                Console::printInvalidInput("Entered number is too small or too big. Try again!");
             }
         }
     }
