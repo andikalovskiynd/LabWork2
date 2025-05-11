@@ -1,3 +1,8 @@
+/**
+ * @file Deck.cpp
+ * @brief Implementation of class Deck methods.
+*/
+
 #include <algorithm>
 #include <random>
 #include <utility>
@@ -6,6 +11,10 @@
 
 Deck::Deck() = default;
 
+/**
+ * @brief Implementation of shuffling the deck. 
+ * @details Randomly renumbers indexes of cards in the deck. 
+*/
 void Deck::shuffle()
 {
     std::random_device dev;
@@ -21,7 +30,11 @@ std::unique_ptr<Card> Deck::drawCard()
         cards.pop_back();
         return drawnCard;
     }
-    Console::printFatalError("Attempted to draw a card from an empty deck");
+    else
+    {
+        Console::printFatalError("Attempted to draw a card from an empty deck");
+        return nullptr;
+    }
 }
 
 bool Deck::isEmpty()

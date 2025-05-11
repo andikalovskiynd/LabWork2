@@ -1,3 +1,8 @@
+/**
+ * @file Defined.cpp 
+ * @brief Implementation of createCollection(). 
+*/
+
 #include "Card/Defined.h"
 
 std::vector<std::unique_ptr<Card>> createCollection()

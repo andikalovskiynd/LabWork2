@@ -1,3 +1,8 @@
+/**
+ * @file PlayingState.cpp
+ * @brief Implementation of class PlayingState methods.
+*/
+
 #include "Game/State/PlayingState.h"
 #include "Deck/Deck.h"
 #include "Game/GameManager/GameManager.h"
@@ -33,6 +38,11 @@ void PlayingState::updateState(GameManager& game)
     }
 }
 
+/**
+ * @details At start some checks, then printing the game information, then getting played card from player or bot and 
+ * then, if turn counter is more than 10, getting random card from collection which is already not in the game. Then processing 
+ * spirits and srtarting the next turn. 
+*/
 void PlayingState::processTurn(GameManager& game)
 {
     const auto& players = game.getPlayers();
@@ -72,7 +82,7 @@ void PlayingState::processTurn(GameManager& game)
         Console::printPlayedCard(*currentPlayer, *playedCard);
         currentPlayer->ApplyCardEffect(*playedCard, game);
     }
-    
+
     else
     {
         Console::printFailedToPlayCard(*currentPlayer);
@@ -151,13 +161,13 @@ bool PlayingState::isGameOver(GameManager& game) const
 
     return alive <= 1;
 }
-void PlayingState::enterState(GameManager& game)
+void PlayingState::enterState([[maybe_unused]]GameManager& game)
 {
     Console::printEnterState("Playing state");
     counter = 1;
 }
 
-void PlayingState::exitState(GameManager& game)
+void PlayingState::exitState([[maybe_unused]]GameManager& game)
 {
     Console::printExitState("Playing state");
 }

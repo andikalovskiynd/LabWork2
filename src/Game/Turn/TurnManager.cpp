@@ -1,3 +1,8 @@
+/**
+ * @file TurnManager.cpp 
+ * @brief Implementation of class TurnManager methods. 
+*/
+
 #include "Game/Turn/TurnManager.h"
 #include <iostream>
 

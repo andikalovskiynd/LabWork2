@@ -1,3 +1,8 @@
+/**
+ * @file EndGameState.cpp
+ * @brief Implementation of class EndGameState methods.
+*/
+
 #include "Game/State/EndGameState.h"
 #include "Game/State/SetupState.h"
 #include "Game/State/MainMenuState.h"
@@ -7,7 +12,7 @@
 
 EndGameState::EndGameState(Character* w) : winner(w) {}
 
-void EndGameState::enterState(GameManager& game)
+void EndGameState::enterState([[maybe_unused]]GameManager& game)
 {
     Console::printEnterState("Setup state");
     Console::printGameOver(winner);
@@ -35,7 +40,7 @@ void EndGameState::updateState(GameManager& game)
     }
 }
 
-void EndGameState::exitState(GameManager& game)
+void EndGameState::exitState([[maybe_unused]]GameManager& game)
 {
     Console::print("Leaving...");
 }

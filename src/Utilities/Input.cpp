@@ -1,3 +1,8 @@
+/**
+ * @file Input.cpp 
+ * @brief Implementation of class Input methods. 
+*/
+
 #include "Utilities/Input.h"
 #include "Utilities/Console.h"
 

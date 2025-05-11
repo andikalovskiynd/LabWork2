@@ -1,3 +1,8 @@
+/**
+ * @file Bot.cpp 
+ * @brief Implementation of class Bot methods. 
+*/
+
 #include "Players/Bot.h"
 #include <thread>
 #include <chrono>
@@ -6,6 +11,9 @@
 #include <cstdlib>
 #include <ctime>
 
+/**
+ * @brief Enumeration of different states of hard bot.
+*/
 enum class BotState 
 {
     Normal, // обычное состояние
@@ -65,7 +73,7 @@ std::unique_ptr<Card> Bot::playCard(int index)
     }
 }
 
-// STUPID MOVE (JUST FOR NOW)
+// Play first card in the vector. 
 std::unique_ptr<Card> Bot::makeStupidMove()
 {
     if (!hand.empty())
@@ -77,6 +85,10 @@ std::unique_ptr<Card> Bot::makeStupidMove()
     return nullptr;
 }
 
+/**
+ * @details Firstly, bot chooses the state he will be in for this turn. As it is decided, bot makes more specialized for state 
+ * checks which will eventually give a score to every card. Then bot chooses card with highest score and returns it. 
+*/
 std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
 {
     Console::print("Thinking..");
@@ -210,22 +222,22 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
             int CRITICAL_LOW_HEALTH_THRESHOLD = 7; // очень мало
             int LOW_HEALTH_THRESHOLD = 13; // 13 - есть смысл лечиться
             int OKAY_HEALTH_THRESHOLD = 15; // нормальное количество здоровья
-            int HIGH_HEALTH_THRESHOLD = 18; // можно подумать о применении магии
-            int CRITICAL_HIGH_HEALTH_THRESHOLD = 24; // опасности нет, нужно атаковать
+            [[maybe_unused]]int HIGH_HEALTH_THRESHOLD = 18; // можно подумать о применении магии
+            [[maybe_unused]]int CRITICAL_HIGH_HEALTH_THRESHOLD = 24; // опасности нет, нужно атаковать
 
             //  player health  //
             int P_CRITICAL_LOW_HEALTH_THRESHOLD = 6; // стоит давить игрока 
             int P_LOW_HEALTH_THRESHOLD = 12; // возможно, стоит атаковать 
             int P_OKAY_HEALTH_THRESHOLD = 16; // нормальное количество здоровья
-            int P_HIGH_HEALTH_THRESHOLD = 19; // очень много здоровья 
-            int P_CRITICAL_HIGH_HEALTH_THRESHOLD = 24; // слишком много здоровья у игрока       
+            [[maybe_unused]]int P_HIGH_HEALTH_THRESHOLD = 19; // очень много здоровья 
+            [[maybe_unused]]int P_CRITICAL_HIGH_HEALTH_THRESHOLD = 24; // слишком много здоровья у игрока       
 
             //   magic    //
             int CRITICAL_HIGH_MAGIC_THRESHOLD = 8; // 10 в сторону игрока ведет к удвоению его карты и обнулению магии
             int HIGH_MAGIC_THRESHOLD = 5; // 5 - это в сторону игрока, достаточно плохо
             int OKAY_MAGIC_THRESHOLD = 0; // start
             int LOW_MAGIC_THRESHOLD = -5; // можно задуматься о применении магии, чтобы усилить следующую карту
-            int CRITICAL_LOW_MAGIC_THRESHOLD = -8; // всего 2 магии до усиления, важно использовать возможность
+            [[maybe_unused]]int CRITICAL_LOW_MAGIC_THRESHOLD = -8; // всего 2 магии до усиления, важно использовать возможность
 
             //  respect  //
             const int B_LOW_RESPECT_THRESHOLD = 5;

@@ -7,22 +7,22 @@ st131335@stdudent.spbu.ru
 Lab work 2. Card RPG game core with hierarchy of charcters and items based on inheritance.
 ## Requirements 
 * C++ 17, install if not installed yet:
-``` 
+``` Bash
 sudo apt update
 sudo apt install build-essential
 ```
 * `make`, install if not installed yet:
-```
+``` Bash
 sudo apt update
 sudo apt install make
 ```
 * `Doxygen`, install if not installed yet:
-```
+``` Bash
 sudo apt update
 sudo apt install doxygen
 ```
 * `LaTeX`, install if not installed yet:
-```
+``` Bash
 sudo apt update
 sudo apt install texlive-full
 ```
@@ -30,6 +30,17 @@ sudo apt install texlive-full
 make
 ## Run
 ./game
+## Docs
+To get .html:
+```Bash
+doxygen Doxyfile
+```
+To get .pdf document:
+```Bash
+doxygen Doxyfile && cd docs/latex/ && make 
+```
+
+
 ## Additional info (Rules)
 **Attributes**
 

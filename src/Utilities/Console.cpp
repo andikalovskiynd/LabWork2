@@ -1,3 +1,8 @@
+/**
+ * @file Console.cpp 
+ * @brief Implementation of class Console methods. 
+*/
+
 #include "Utilities/Console.h"
 #include "Game/GameManager/GameManager.h"
 #include "Players/Character.h"
@@ -162,7 +167,7 @@ namespace Console
         }
     }
 
-    void printSpiritEffect(const Character& target, const std::string& effectMessage)
+    void printSpiritEffect([[maybe_unused]]const Character& target, const std::string& effectMessage)
     {
         std::cout << effectMessage << std::endl;
     }

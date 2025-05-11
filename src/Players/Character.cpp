@@ -1,3 +1,8 @@
+/**
+ * @file Character.cpp 
+ * @brief Implementation of class Character methods. 
+*/
+
 #include "Players/Character.h"
 #include "Game/Spirit/EvilSpirit.h"
 #include "Game/Spirit/GoodSpirit.h"
@@ -38,6 +43,10 @@ void Character::changeRespect(int amount)
 }
 
 // else 
+/**
+ * @details Here the spirit is being created. Important because respect plays a huge part here. Difference between players and personal respect 
+ * directly depend on chance of spirit appearance. 
+*/
 void Character::ApplyCardEffect (const Card& card, GameManager& game)
 {
     game.setCurrentPlayer(this);

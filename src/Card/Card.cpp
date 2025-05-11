@@ -1,3 +1,8 @@
+/**
+ * @file Card.cpp 
+ * @brief Implementation of class Card methods. 
+*/
+
 #include "Card/Card.h"
 
 Card::Card(const std::string &n, int hEffect, int rEffect, int mEffect, Type t) : name(n), baseHealthEffect(hEffect), baseRespectEffect(rEffect), baseMagicEffect(mEffect), cardType(t) {}

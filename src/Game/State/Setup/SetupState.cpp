@@ -1,3 +1,8 @@
+/**
+ * @file SetupState.cpp 
+ * @brief Implementation of class SetupState methods. 
+*/
+
 #include "Game/State/SetupState.h"
 #include "Players/Player.h"
 #include "Players/Bot.h"
@@ -10,6 +15,9 @@
 
 SetupState::SetupState (Deck& d) : deck(d) {}
 
+/**
+ * @details Using the Console::loadAnimation() to make loading process sharp.
+*/
 void SetupState::enterState(GameManager& game)
 {
     Console::printEnterState("Setup state");
@@ -39,15 +47,13 @@ void SetupState::initPlayers(GameManager& game)
     int difficulty = InputManager::getInt(1, 3);
 
     std::unique_ptr<Character> bot;
-    Difficulty botDiff;
     switch (difficulty)
     {
-        case 1: botDiff = Difficulty::EASY; bot = std::make_unique<Bot>("Valera", 15, 5, Difficulty::EASY); break;
-        case 2: botDiff = Difficulty::MEDIUM; bot = std::make_unique<Bot>("Anton", 20, 10, Difficulty::MEDIUM); break;
-        case 3: botDiff = Difficulty::HARD; bot = std::make_unique<Bot>("Bogdan", 25, 20, Difficulty::HARD); break;
+        case 1: bot = std::make_unique<Bot>("Valera", 15, 5, Difficulty::EASY); break;
+        case 2: bot = std::make_unique<Bot>("Anton", 20, 10, Difficulty::MEDIUM); break;
+        case 3: bot = std::make_unique<Bot>("Bogdan", 25, 20, Difficulty::HARD); break;
         default: 
             Console::printInvalidInput("Incorrect input. Difficulty is set to easy. ");
-            botDiff = Difficulty::EASY;
             bot = std::make_unique<Bot>("Anatoliy", 15, 5, Difficulty::EASY);
             break;
     }

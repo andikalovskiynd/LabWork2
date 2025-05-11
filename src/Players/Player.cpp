@@ -1,3 +1,8 @@
+/**
+ * @file Player.cpp 
+ * @brief Implementation of class Player methods. 
+*/
+
 #include "Players/Player.h"
 #include "Game/GameManager/GameManager.h"
 #include "Utilities/Console.h"
@@ -6,6 +11,9 @@
 Player::Player(const std::string &n, int h, int r) : Character(n, h, r) {}
 
 // interactions with cards
+/**
+ * @details Despite that this is almost impossible there is additive check if the index is in range to avoid UB.
+*/
 std::unique_ptr<Card> Player::playCard(int index)
 {
     if (index >= 0 && index < static_cast<int>(hand.size()))
@@ -28,7 +36,10 @@ std::unique_ptr<Card> Player::playCard(int index)
     }
 }
 
-std::unique_ptr<Card> Player::takeTurn(GameManager& game)
+/**
+ * @details Processing of different inputs, such as played card index, quit or help.
+*/
+std::unique_ptr<Card> Player::takeTurn([[maybe_unused]]GameManager& game)
 {
     quitRequested = false;  
     int index = -1;

@@ -1,3 +1,8 @@
+/**
+ * @file MainMenuState.cpp
+ * @brief Implementation of class MainMenuState methods.
+*/
+
 #include "Game/State/MainMenuState.h"
 #include "Game/GameManager/GameManager.h"
 #include "Game/State/Gamestate.h"
@@ -5,7 +10,7 @@
 #include "Utilities/Console.h"
 #include "Utilities/Input.h"
 
-void MainMenuState::enterState(GameManager& game)
+void MainMenuState::enterState([[maybe_unused]]GameManager& game)
 {
     Console::printEmptyLine();
     Console::printEnterState("Main menu");
@@ -37,7 +42,7 @@ void MainMenuState::updateState(GameManager& game)
     }
 }
 
-void MainMenuState::exitState(GameManager& game)
+void MainMenuState::exitState([[maybe_unused]]GameManager& game)
 {
     Console::printExitState("Main menu");
 }

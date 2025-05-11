@@ -1,3 +1,8 @@
+/**
+ * @file GameManager.cpp
+ * @brief Implementation of class GameManager methods.
+*/
+
 #include "Game/GameManager/GameManager.h"
 #include <utility>
 #include <memory>
@@ -57,6 +62,9 @@ void GameManager::updateMagicPool(int amount)
     magicPool += amount;
 }
 
+/**
+ * @details Check if magic is out of range (from -10 to 10).
+*/
 bool GameManager::shouldAmplify() const
 {
     if (currentPlayer == players[1].get() && magicPool <= -10)
