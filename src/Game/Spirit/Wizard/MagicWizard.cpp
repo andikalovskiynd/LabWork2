@@ -19,7 +19,7 @@ void MagicWizard::applyEffect()
         game.updateMagicPool(-5);
         Console::printSpiritEffect(*getTarget(), "Who is that? Magic wizard steals magic from " + creator->getName());
     }
-    else if (creator == game.getPlayers()[0].get())
+    else if (creator == game.getPlayers()[1].get())
     {
         game.updateMagicPool(5);
         Console::printSpiritEffect(*getTarget(), "Who is that? Magic wizard steals magic from " + creator->getName());

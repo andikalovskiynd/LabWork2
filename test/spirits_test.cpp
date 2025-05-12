@@ -53,9 +53,32 @@ TEST(MagicWizardTest, ApplyEffectTest)
     Character* creatorBot = game.getPlayers()[1].get();
 
     MagicWizard magicWizardPlayer(creatorPlayer, game);
-    MagicWizard magicWizardPlayer(creatorBot, game);
+    MagicWizard magicWizardBot(creatorBot, game);
 
-    // Test when creator is player  (TODO)
-    
+    // Test when creator is player
+    int initMagicPool1 = game.getMagicPool();
+
+    magicWizardPlayer.applyEffect();
+
+    int expectMagicChange = -5;
+    ASSERT_EQ(initMagicPool1 + expectMagicChange, game.getMagicPool());
+
+    // reset for next test
+    game.resetMagicPool();
+    ASSERT_EQ(0, game.getMagicPool());
+
+    // Test when creator is bot
+    int initMagicPool2 = game.getMagicPool();
+
+    magicWizardBot.applyEffect();
+
+    int expectMagicChange = 5;
+    ASSERT_EQ(initMagicPool1 + expectMagicChange, game.getMagicPool());
+
+    // Check update() for both spirits
+    ASSERT_TRUE(magicWizardPlayer.update());
+    ASSERT_FALSE(magicWizardPlayer.update());
+
+    ASSERT_TRUE(magicWizardBot.update());
+    ASSERT_TRUE(magicWizardBot.update());
 }
-

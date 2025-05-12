@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+
 #include "Card/Card.h"
 #include "Card/AttackCard.h"
 #include "Card/HealCard.h"
