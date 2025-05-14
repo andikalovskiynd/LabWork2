@@ -10,8 +10,10 @@
 // Constrcutor and getters
 TEST(BasicCardTest, ConstructorAndGetters)
 {
+    // Arrange
     Card testCard("Basic card", 10, 5, 3, Card::Type::ATTACK);
 
+    // Assert
     ASSERT_EQ("Basic card", testCard.getName());
     ASSERT_EQ(10, testCard.getHealthEffect());
     ASSERT_EQ(5, testCard.getRespectEffect());
@@ -46,7 +48,6 @@ TEST(AttackCardTest, ConstructorGettersEffects)
     ASSERT_EQ("Fireball", attackCard.getName());
     ASSERT_EQ(Card::Type::ATTACK, attackCard.getType());
 
-    // effects
     ASSERT_EQ(8, attackCard.getHealthEffect());
     ASSERT_EQ(5, attackCard.getMagicEffect());
     ASSERT_EQ(0, attackCard.getRespectEffect());
@@ -60,7 +61,6 @@ TEST(HealCardTest, ConstructorGettersEffects)
     ASSERT_EQ("Minor healing", healCard.getName());
     ASSERT_EQ(Card::Type::HEAL, healCard.getType());
 
-    // effects
     ASSERT_EQ(6, healCard.getHealthEffect());
     ASSERT_EQ(2, healCard.getMagicEffect());
     ASSERT_EQ(0, healCard.getRespectEffect());
@@ -74,7 +74,6 @@ TEST(MagicCardTest, ConstructorGettersEffects)
     ASSERT_EQ("Mana burst", magicCard.getName());
     ASSERT_EQ(Card::Type::MAGIC, magicCard.getType());
 
-    // effects
     ASSERT_EQ(0, magicCard.getHealthEffect());
     ASSERT_EQ(7, magicCard.getMagicEffect());
     ASSERT_EQ(0, magicCard.getRespectEffect());
@@ -88,7 +87,6 @@ TEST(RespectCardTest, ConstructorGettersEffects)
     ASSERT_EQ("Bow", respectCard.getName());
     ASSERT_EQ(Card::Type::RESPECT, respectCard.getType());
 
-    // effects
     ASSERT_EQ(0, respectCard.getHealthEffect());
     ASSERT_EQ(1, respectCard.getMagicEffect());
     ASSERT_EQ(4, respectCard.getRespectEffect());

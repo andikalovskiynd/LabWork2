@@ -14,6 +14,25 @@
 /// @brief Enumeration of Bot's difficulty.
 enum class Difficulty { EASY, MEDIUM, HARD };
 
+/**
+ * @brief Enumeration of different states of hard bot.
+*/
+enum class BotState 
+{
+    Normal, // обычное состояние
+    CriticallyDefensive, // критически мало здоровья у бота
+    Defensive, // просто мало здоровья у бота
+    CriticallyAggressive, // критически мало здоровья у противника
+    Aggressive, // просто мало здоровья у противника
+    MagicCrisis, // критически много магии у противника
+    MagicAdvantageOpponent, // просто много магии у противника
+    MagicAdvantageBot, // магия в пользу бота (для усиления)
+    RespectCrisisBot, // критически мало уважения у бота
+    RespectCrisisOpponent, // критически много уважения у противника
+    RespectFocus, // фокус на уважении (менее срочно)
+    Default // на всякий
+};
+
 /// @brief Bot is the class that represents the AI opponent, inherits from Character.
 class Bot : public Character
 {
@@ -70,11 +89,10 @@ public:
     std::unique_ptr<Card> makeStupidMove(); 
 
     /**
-     * @brief AI is here!
+     * @brief Getting the best card from hand. 
+     * @details Using chooseState to analyze current situation in the game, then applies different score to the card, then chooses largest. 
      * @param game Used to analyze all game context. 
      * @return Unique pointer on the object of Card which has largest score. 
-     * 
-     * Bot analyzes all the situation: how much health has itself and player, magic and respect too. Then it chooses between 12 different states from critically defensive to critically agressive and then applies different score to the card, then chooses largest. 
     */
     std::unique_ptr<Card> takeTurn(GameManager& game) override;
 
@@ -89,6 +107,23 @@ public:
      * @return Always false. 
     */
     bool wantsToQuit() const override;
+
+    /**
+     * @brief Chooses current bot state relying on the current game situation. 
+     * @param game Used to analyze game situation. 
+     * @return Chosen state of Bot (BotState).
+     */
+    BotState chooseState(GameManager& game);
+
+    #ifdef TEST_BUILD
+    /**
+     * @brief Sets bot's hand for test purposes.
+     * @details This method available ONLY if TEST_BUILD used.
+     * @param cards Vector of unique pointers on class Cards objects which will be set in bot's hand.
+    */
+    void setHand(std::vector<std::unique_ptr<Card>> cards);
+
+    #endif
 };
 
 #endif

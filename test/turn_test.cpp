@@ -26,6 +26,17 @@ std::vector<std::unique_ptr<Character>> createTestPlayersList(int quantity)
     return players;
 }
 
+// Make list of players with specific health
+std::vector<std::unique_ptr<Character>> createPlayersListHealth(const std::vector<int>& healthValues) 
+{
+    std::vector<std::unique_ptr<Character>> players;
+    for (size_t i = 0; i < healthValues.size(); ++i) 
+    {
+        players.push_back(std::make_unique<Player>("Test Player " + std::to_string(i), healthValues[i], 10));
+    }
+    return players;
+}
+
 // TurnManager tests
 // Constructor and getter
 // Constructor init
@@ -112,5 +123,31 @@ TEST(TurnManagerTest, NextTurnForSinglePlayerTest)
 // Check if isGameOver() return false in right conditions
 TEST(TurnManagerTest, IsGameOverReturnsFalse)
 {
-    // todo 
+    std::vector<std::unique_ptr<Character>> playersAlive = createPlayersListHealth({10, 20, 5});
+    TurnManager turnManager(playersAlive);
+    ASSERT_FALSE(turnManager.isGameOver());
+
+    std::vector<std::unique_ptr<Character>> playersOneDead = createPlayersListHealth({0, 20, 5});
+    TurnManager _turnManager(playersOneDead);
+    ASSERT_FALSE(_turnManager.isGameOver());
+}
+
+// Check if isGameOver() returns true if only 1 player is alive
+TEST(TurnManagerTest, IsGameOverSinglePlayerReturnsTrue)
+{
+    std::vector<std::unique_ptr<Character>> onePlayerDead = createPlayersListHealth({0, 10});
+    TurnManager turnManager(onePlayerDead);
+    ASSERT_TRUE(turnManager.isGameOver());
+
+    std::vector<std::unique_ptr<Character>> singlePlayer = createPlayersListHealth({10});
+    TurnManager _turnManager(singlePlayer);
+    ASSERT_TRUE(turnManager.isGameOver());
+}
+
+// Check if all players are dead
+TEST(TurnManagerTest, IsGameOverAllDead)
+{
+    std::vector<std::unique_ptr<Character>> allDead = createPlayersListHealth({0, 0});
+    TurnManager turnManager(allDead);
+    ASSERT_TRUE(turnManager.isGameOver());
 }
