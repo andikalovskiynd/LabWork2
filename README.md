@@ -26,6 +26,11 @@ sudo apt install doxygen
 sudo apt update
 sudo apt install texlive-full
 ```
+* `gtest` and `gmock`, install if not installed yet:
+``` Bash
+sudo apt update
+sudo apt instal googletest
+```
 ## Build
 ``` Bash
 make
