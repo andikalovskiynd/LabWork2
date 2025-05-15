@@ -16,11 +16,11 @@ std::vector<std::unique_ptr<Character>> createTestPlayersList(int quantity)
     {
         if(i % 2 == 0)
         {
-            players.push_back(std::make_unique<Player>("Human" + i, 10, 10));
+            players.push_back(std::make_unique<Player>("Human" + std::to_string(i), 10, 10));
         }
         else
         {
-            players.push_back(std::make_unique<Bot>("Bot" + i, 15, 15, Difficulty::MEDIUM));
+            players.push_back(std::make_unique<Bot>("Bot" + std::to_string(i), 15, 15, Difficulty::MEDIUM));
         }
     }
     return players;

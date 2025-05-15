@@ -35,7 +35,7 @@ public:
     /**
      * @brief GameManager destructor.
     */
-    ~GameManager() = default;
+    ~GameManager();
 
     /**
      * @brief Adds player in the game. 
@@ -59,9 +59,10 @@ public:
 
     /**
      * @brief Get players that are now in the game. 
+     * @details Virtual to override in MockGameManager for tests.
      * @return Constant link on vector containing the unique pointers on class Character objects.
     */
-    const std::vector<std::unique_ptr<Character>>& getPlayers() const;
+    virtual const std::vector<std::unique_ptr<Character>>& getPlayers() const;
 
     /**
      * @brief Get game deck. 
@@ -82,38 +83,44 @@ public:
 
     /**
      * @brief Get player whose turn is now. 
+     * @details Virtual to override in MockGameManager for tests.
      * @return Pointer on the class Character object which represents the current player. 
     */
-    Character* getCurrentPlayer();
+    virtual Character* getCurrentPlayer();
 
     /**
      * @brief Set current player. 
+     * @details Virtual to override in MockGameManager for tests.
      * @param player Player that is wanted to be set. 
     */
-    void setCurrentPlayer(Character* player);
+    virtual void setCurrentPlayer(Character* player);
 
     /**
      * @brief Reduce or increase magic pool by the amount. 
+     * @details Virtual to override in MockGameManager for tests.
      * @param amount Integer which represents change in magic pool, may be positive or negative.
     */
-    void updateMagicPool(int amount);
+    virtual void updateMagicPool(int amount);
 
     /**
      * @brief Check if card now should be amplified. 
+     * @details Virtual to override in MockGameManager for tests.
      * @return True, if card should be amplified, false otherwise.
     */
-    bool shouldAmplify() const;
+    virtual bool shouldAmplify() const;
 
     /**
      * @brief Set magic pool to 0. 
+     * @details Virtual to override in MockGameManager for tests.
     */
-    void resetMagicPool();
+    virtual void resetMagicPool();
 
     /**
      * @brief Add spirit to the game. 
+     * @details Virtual to override in MockGameManager for tests.
      * @param spirit Unique pointer on the class Spirit object which represents the spirit that is want to be added. 
     */
-    void addSpirit(std::unique_ptr<Spirit> spirit);
+    virtual void addSpirit(std::unique_ptr<Spirit> spirit);
 
     /**
      * @brief Process spirits effects. 

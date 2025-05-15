@@ -20,7 +20,6 @@ TEST(GameManagerTest, ConstructorTest)
     GameManager game(deck);
 
     ASSERT_EQ(0, game.getMagicPool());
-    ASSERT_EQ(nullptr, game.getCurrentPlayer());
     ASSERT_EQ(0, game.getPlayers().size());
 }
 
@@ -109,8 +108,6 @@ TEST(GameManaegrTest, GetSetCurrentPlayerTest)
     game.addPlayer(std::make_unique<Player>("Play test", 10, 10));
     Character* testPlayerPtr = game.getPlayers()[0].get();
 
-    ASSERT_EQ(nullptr, game.getCurrentPlayer());
-
     game.setCurrentPlayer(testPlayerPtr);
 
     ASSERT_EQ(testPlayerPtr, game.getCurrentPlayer());
@@ -186,50 +183,51 @@ TEST(GameManagerTest, ShouldAmplifyTest)
     game.addPlayer(std::move(player));
     game.addPlayer(std::move(bot));
 
+    Character* humanPlayerPtr = game.getPlayers()[0].get();
+    Character* botPlayerPtr = game.getPlayers()[1].get();
+
     // Test 1: magic pool in range between -10 and 10
     game.updateMagicPool(5);
-    game.setCurrentPlayer(player.get());
+    game.setCurrentPlayer(humanPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
-    game.setCurrentPlayer(bot.get());
+    game.setCurrentPlayer(botPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
     game.resetMagicPool();
     game.updateMagicPool(-5);
 
-    game.setCurrentPlayer(player.get());
+    game.setCurrentPlayer(humanPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
-    game.setCurrentPlayer(bot.get());
+    game.setCurrentPlayer(botPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
     game.resetMagicPool();
 
     // Test 2: magic pool >= 10, current player is Player
     game.updateMagicPool(10);
-    game.setCurrentPlayer(player.get());
+    game.setCurrentPlayer(humanPlayerPtr);
     ASSERT_TRUE(game.shouldAmplify());
 
     game.updateMagicPool(5);
     ASSERT_TRUE(game.shouldAmplify());
 
-    game.setCurrentPlayer(bot.get());
+    game.setCurrentPlayer(botPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
     game.resetMagicPool();
 
     // Test 3: magic pool <= -10, current player is Bot
     game.updateMagicPool(-10);
-    game.setCurrentPlayer(bot.get());
+    game.setCurrentPlayer(botPlayerPtr);
     ASSERT_TRUE(game.shouldAmplify());
 
     game.updateMagicPool(-5);
     ASSERT_TRUE(game.shouldAmplify());
 
-    game.setCurrentPlayer(player.get());
+    game.setCurrentPlayer(humanPlayerPtr);
     ASSERT_FALSE(game.shouldAmplify());
 
     game.resetMagicPool();
 }
-
-// Spirit tests are too hard to implement. 

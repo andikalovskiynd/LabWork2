@@ -56,5 +56,4 @@ const std::vector<std::unique_ptr<Card>>& Deck::getCards() const
 void Deck::addCard(std::unique_ptr<Card> card)
 {
     cards.push_back(std::move(card));
-    shuffle();
 }

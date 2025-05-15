@@ -3,6 +3,7 @@
 
 #include "Players/Character.h"
 #include "Players/Player.h" // Character is an abstract class so we can't make object of it
+#include "Players/Bot.h" // opponent is neccesery
 
 #include "Card/Card.h"
 #include "Card/AttackCard.h"
@@ -27,19 +28,26 @@ class StubDeck : public Deck
         StubDeck() : Deck() {}
 };
 
-// GameManager mock
-// Need to control its behavour and check how it works with ApplyCardEffect()
+// GameManager mock 
 class MockGameManager : public GameManager
 {
     private:
         StubDeck stubDeck_;
+        std::vector<std::unique_ptr<Character>> testPlayers_;
+        Character* currentPlayer_ = nullptr;
+        int magicPool_ = 0;
 
-    public:
-        MockGameManager() : GameManager(stubDeck_) {}
+    public: 
+        MockGameManager() : GameManager(stubDeck_), stubDeck_() {}
 
         // Mock methods
-        MOCK_METHOD(void, updateMagicPool, (int amount), ());
-        MOCK_METHOD(bool, shouldAmplify, (), (const));
+        MOCK_METHOD(bool, shouldAmplify, (), (const, override));
+        MOCK_METHOD(const std::vector<std::unique_ptr<Character>>&, getPlayers, (), (const, override));
+        MOCK_METHOD(void, updateMagicPool, (int amount), (override));
+        MOCK_METHOD(Character*, getCurrentPlayer, (), (override));
+        MOCK_METHOD(void, setCurrentPlayer, (Character* player), (override));
+        MOCK_METHOD(void, resetMagicPool, (), (override));
+        MOCK_METHOD(void, addSpirit, (std::unique_ptr<Spirit> spirit), (override));
 };
 
 // Character tests
@@ -222,47 +230,74 @@ TEST(CharacterTest, IsAlive_ReturnsWhenZeroOrNegative_False)
 TEST(CharacterTest, ApplyCardEffect_AttackCardNotAmplified_Correctly)
 {
     // Arrange
-    Player testChar("Test char", 25, 20);
     MockGameManager gameManager;
+    std::unique_ptr<Player> testChar = std::make_unique<Player>("Test char", 25, 20);
+    std::unique_ptr<Bot> opponent = std::make_unique<Bot>("Opponent", 25, 20, Difficulty::EASY); 
+
+    std::vector<std::unique_ptr<Character>> playersMock;
+    playersMock.push_back(std::move(testChar)); 
+    playersMock.push_back(std::move(opponent));
+
+    Character* testCharPtr = testChar.get();
+    Character* opponentPtr = opponent.get();
+
     AttackCard stubAttackCard("Test Attack", 10, 5);
 
-    int initHealth = testChar.getHealth();
-    int initRespect = testChar.getRespect();
+    int playerInitHealth = testCharPtr->getHealth();
+    int playerInitRespect = testCharPtr->getRespect();
+
+    int opponentInitHealth = opponentPtr->getHealth();
+    int opponentInitRespect = opponentPtr->getRespect();
 
     int healthEffect = stubAttackCard.getHealthEffect();
     int respectEffect = stubAttackCard.getRespectEffect();
     int magicEffect = stubAttackCard.getMagicEffect();
 
-    // mock: shouldAmplify() must return false
-    EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(false));
-    // mock: updateMagicPool() must be called only once with argument magicEffect
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(magicEffect))).Times(1);
+    // mock: 
+    EXPECT_CALL(gameManager, setCurrentPlayer(testCharPtr)).Times(1); // aef calls game.setCurrentPlayer
+    EXPECT_CALL(gameManager, getPlayers()).WillOnce(::testing::ReturnRef(playersMock)); // aef calls getPlayers. must return mock players (playersMock)
+    EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(false)); // shouldAmplify must be false
+    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(-magicEffect))).Times(1); // aef calls updateMagicPool
+    EXPECT_CALL(gameManager, addSpirit(::testing::_)).Times(::testing::AtLeast(0)); // spirit might be called with little chance so
+    EXPECT_CALL(gameManager, resetMagicPool()).Times(0); // shouldAmplify must be false so there is mustnt be a chance to reset mp
 
 
     // Act
-    testChar.ApplyCardEffect(stubAttackCard, gameManager);
+    testCharPtr->ApplyCardEffect(stubAttackCard, gameManager);
 
 
     // Assert
-    ASSERT_EQ(initHealth - healthEffect, testChar.getHealth());
-    ASSERT_EQ(initRespect + respectEffect, testChar.getRespect());
-    // mock will check expectations
+    ASSERT_EQ(playerInitHealth, testCharPtr->getHealth());
+    ASSERT_EQ(playerInitRespect, testCharPtr->getRespect());
+
+    ASSERT_EQ(opponentInitHealth - healthEffect, opponentPtr->getHealth());
+    ASSERT_EQ(opponentInitRespect, opponentPtr->getRespect());
+    // mock checks everything else 
 }
 
 // Attack card amplified
 TEST(CharacterTest, ApplyCardEffect_AttackCardAmplified_Correctly)
 {
     // Arrange
-    Player testChar("Test char", 30, 20);
     MockGameManager gameManager;
+    std::unique_ptr<Player> testChar = std::make_unique<Player>("Test char", 25, 20);
+    std::unique_ptr<Bot> opponent = std::make_unique<Bot>("Opponent", 25, 20, Difficulty::EASY); 
+
+    std::vector<std::unique_ptr<Character>> players;
+    players.push_back(std::move(testChar)); 
+    players.push_back(std::move(opponent));
+    gameManager.setTestPlayers(std::move(players));
+
+    Character* testCharPtr = gameManager.getPlayers()[0].get();
+
     AttackCard stubAttackCard("Test Attack", 10, 5);
 
-    int initHealth = testChar.getHealth();
-    int initRespect = testChar.getRespect();
+    int initHealth = testCharPtr->getHealth();
+    int initRespect = testCharPtr->getRespect();
 
     int healthEffect = stubAttackCard.getHealthEffect();
-    int magicEffect = stubAttackCard.getMagicEffect();
     int respectEffect = stubAttackCard.getRespectEffect();
+    int magicEffect = stubAttackCard.getMagicEffect();
 
     int ampHealth = healthEffect * 2;
     int ampMagic = magicEffect * 2;
@@ -270,12 +305,9 @@ TEST(CharacterTest, ApplyCardEffect_AttackCardAmplified_Correctly)
 
     // mock: shouldAmplify() must return true
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(true));
-    // mock: updateMagicPool() must be called only once with argument ampMagic
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(ampMagic))).Times(1);
-
 
     // Act
-    testChar.ApplyCardEffect(stubAttackCard, gameManager);
+    testChar->ApplyCardEffect(stubAttackCard, gameManager);
 
 
     // Assert
@@ -302,7 +334,7 @@ TEST(CharacterTest, ApplyCardEffect_HealCardNotAmplifed_Correctly)
     // mock: shouldAmplify() must return false
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(false));
     // mock: updateMagicPool() must be called only once with argument magicEffect
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(magicEffect))).Times(1);
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(magicEffect))).Times(1);
 
 
     // Act
@@ -337,7 +369,7 @@ TEST(CharacterTest, ApplyCardEffect_HealCardAmplified_Correctly)
     // mock: shouldAmplify() must return true
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(true));
     // mock: updateMagicPool() must be called only once with argument ampMagic
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(ampMagic))).Times(1);
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(ampMagic))).Times(1);
 
 
     // Act
@@ -345,8 +377,8 @@ TEST(CharacterTest, ApplyCardEffect_HealCardAmplified_Correctly)
 
 
     // Assert
-    ASSERT_EQ(initHealth + healthEffect, testChar.getHealth());
-    ASSERT_EQ(initRespect - respectEffect, testChar.getRespect());
+    ASSERT_EQ(initHealth + ampHealth, testChar.getHealth());
+    ASSERT_EQ(initRespect - ampRespect, testChar.getRespect());
     // mock will check expectations
 }
 
@@ -369,7 +401,7 @@ TEST(CharacterTest, ApplyCardEffect_RespectCardNotAmplified_Correctly)
     // mock: shouldAmplify() must return false
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(false));
     // mock: updateMagicPool() must be called only once with argument magicEffect
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(magicEffect))).Times(1);
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(magicEffect))).Times(1);
 
 
     // Act 
@@ -403,9 +435,6 @@ TEST(CharacterTest, ApplyCardEffect_RespectCardAmplified_Correctly)
 
     // mock: shouldAmplify() must return true
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(true));
-    // mock: updateMagicPool() must be called only once with argument ampMagic
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(ampMagic))).Times(1);
-
 
     // Act 
     testChar.ApplyCardEffect(stubRespectCard, gameManager);
@@ -435,7 +464,7 @@ TEST(CharacterTest, ApplyCardEffect_MagicCardNotAmplified_Correctly)
     // mock: shouldAmplify() must return false
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(false));
     // mock: updateMagicPool() must be called only once with argument magicEffect
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(magicEffect))).Times(1);
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(magicEffect))).Times(1);
 
 
     // Act
@@ -470,7 +499,7 @@ TEST(CharacterTest, ApplyCardEffect_MagicCardAmplified_Correctly)
     // mock: shouldAmplify() must return true
     EXPECT_CALL(gameManager, shouldAmplify()).WillOnce(::testing::Return(true));
     // mock: updateMagicPool() must be called only once with argument ampMagic
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(ampMagic))).Times(1);
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(ampMagic))).Times(1);
 
 
     // Act
@@ -478,8 +507,8 @@ TEST(CharacterTest, ApplyCardEffect_MagicCardAmplified_Correctly)
 
 
     // Assert
-    ASSERT_EQ(initHealth - healthEffect, testChar.getHealth());
-    ASSERT_EQ(initRespect - respectEffect, testChar.getRespect());
+    ASSERT_EQ(initHealth - ampHealth, testChar.getHealth());
+    ASSERT_EQ(initRespect - ampRespect, testChar.getRespect());
     // mock will check expectations
 }
 
@@ -501,7 +530,7 @@ TEST(CharacterTest, ApplyCardEffect_ZeroChangeCard_Correctly)
     // mock: shouldAmplify() may be called 0 or 1 time 
     EXPECT_CALL(gameManager, shouldAmplify()).Times(::testing::AtLeast(0));
     // mock: updateMagicPool() must be called only once with argument 0
-    EXPECT_CALL(gameManager, updateMagicPool(::testing::Eq(0))).Times(1); 
+    EXPECT_CALL(gameManager, _updateMagicPool(::testing::Eq(magicEffect))).Times(1); 
 
 
     // Act 

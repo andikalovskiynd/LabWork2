@@ -6,11 +6,14 @@
 #include "Game/GameManager/GameManager.h"
 #include <utility>
 #include <memory>
+#include "Game/State/Gamestate.h"
 #include "Utilities/Console.h"
 #include "Players/Character.h"
 #include "Game/State/Gamestate.h"
 
 GameManager::GameManager(Deck& d) : currentState(nullptr), deck(d) {}
+
+GameManager::~GameManager() = default;
 
 void GameManager::setState(std::unique_ptr<GameState> state)
 {

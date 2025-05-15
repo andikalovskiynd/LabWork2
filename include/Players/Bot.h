@@ -115,6 +115,8 @@ public:
      */
     BotState chooseState(GameManager& game);
 
+    const Difficulty getDifficulty() const;
+
     #ifdef TEST_BUILD
     /**
      * @brief Sets bot's hand for test purposes.

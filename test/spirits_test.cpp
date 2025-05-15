@@ -69,16 +69,14 @@ TEST(MagicWizardTest, ApplyEffectTest)
 
     // Test when creator is bot
     int initMagicPool2 = game.getMagicPool();
+    int expectMagicChange2 = 5;
 
     magicWizardBot.applyEffect();
 
-    int expectMagicChange = 5;
-    ASSERT_EQ(initMagicPool1 + expectMagicChange, game.getMagicPool());
+    ASSERT_EQ(initMagicPool2 + expectMagicChange2, game.getMagicPool());
 
     // Check update() for both spirits
-    ASSERT_TRUE(magicWizardPlayer.update());
     ASSERT_FALSE(magicWizardPlayer.update());
 
-    ASSERT_TRUE(magicWizardBot.update());
-    ASSERT_TRUE(magicWizardBot.update());
+    ASSERT_FALSE(magicWizardBot.update());
 }

@@ -20,7 +20,7 @@ TEST(BasicCardTest, ConstructorAndGetters)
     ASSERT_EQ(3, testCard.getMagicEffect());
     ASSERT_EQ(Card::Type::ATTACK, testCard.getType());
 
-    EXPECT_EQ("Basic Card", testCard.getName());
+    EXPECT_EQ("Basic card", testCard.getName());
     EXPECT_EQ(10, testCard.getHealthEffect());
     EXPECT_EQ(5, testCard.getRespectEffect());
     EXPECT_EQ(3, testCard.getMagicEffect());

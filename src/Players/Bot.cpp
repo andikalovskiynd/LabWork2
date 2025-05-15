@@ -245,19 +245,19 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                         currentCardScore = card.getHealthEffect() * 100;
                     }
 
-                    else if (magic >= M_HIGH_MAGIC && card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
+                    else if (magic >= M_HIGH_MAGIC && card.getType() == Card::Type::MAGIC)
                     {
-                        currentCardScore = std::max(0, -card.getMagicEffect()) * 80;
+                        currentCardScore = card.getMagicEffect() * 80;
                     }
 
                     else if (opponentHealth <= M_OPPONENT_LOW_HEALTH && card.getType() == Card::Type::ATTACK)
                     {
-                        currentCardScore = (-card.getHealthEffect()) * 60;
+                        currentCardScore = card.getHealthEffect() * 60;
                     }
 
                     else if (card.getType() == Card::Type::ATTACK)
                     {
-                        currentCardScore = (-card.getHealthEffect()) * 10; 
+                        currentCardScore = card.getHealthEffect() * 10; 
                     }
 
                     else if (card.getType() == Card::Type::HEAL)
@@ -265,9 +265,14 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                         currentCardScore = card.getHealthEffect() * 7;
                     }
 
-                    else if (card.getType() == Card::Type::MAGIC && card.getMagicEffect() < 0)
+                    else if (card.getType() == Card::Type::MAGIC)
                     {
                         currentCardScore = card.getMagicEffect() * 6;
+                    }
+
+                    else if (card.getType() == Card::Type::RESPECT)
+                    {
+                        currentCardScore = card.getMagicEffect() * 5;
                     }
 
                     else if (currentCardScore > bestScore)
@@ -591,3 +596,15 @@ bool Bot::wantsToQuit() const
 {
     return false;
 }
+
+const Difficulty Bot::getDifficulty() const
+{
+    return botDifficulty;
+}
+
+#ifdef TEST_BUILD
+void Bot::setHand(std::vector<std::unique_ptr<Card>> cards) 
+{
+    hand = std::move(cards); 
+}
+#endif
