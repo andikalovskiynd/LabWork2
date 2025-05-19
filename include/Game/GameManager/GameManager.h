@@ -41,7 +41,7 @@ public:
      * @brief Adds player in the game. 
      * @param player Player that is wanted to be added.
     */
-    void addPlayer(std::unique_ptr<Character> player);
+    virtual void addPlayer(std::unique_ptr<Character> player);
 
     /**
      * @brief Provides game manager make transitions between states. 
@@ -79,7 +79,7 @@ public:
      * @brief Get general magic pool. 
      * @return Integer which represents magic pool on the gaming table. 
     */
-    int getMagicPool() const;
+    virtual int getMagicPool() const;
 
     /**
      * @brief Get player whose turn is now. 

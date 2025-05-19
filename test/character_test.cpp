@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
+#include "Utilities/mock_class.h"
+
 #include "Players/Character.h"
 #include "Players/Player.h" // Character is an abstract class so we can't make object of it
 #include "Players/Bot.h" // opponent is neccesery
@@ -19,33 +21,6 @@
 
 // Using Player as inherit of Character and its representative
 // A lot of AAA comments for my personal covinience and logic separation of code
-
-// Deck stub
-// needed only to init GameManager mock
-class StubDeck : public Deck 
-{
-    public:
-        StubDeck() : Deck() {}
-};
-
-// GameManager mock 
-class MockGameManager : public GameManager
-{
-    private:
-        StubDeck stubDeck_;
-
-    public: 
-        MockGameManager() : GameManager(stubDeck_), stubDeck_() {}
-
-        // Mock methods
-        MOCK_METHOD(bool, shouldAmplify, (), (const, override));
-        MOCK_METHOD(const std::vector<std::unique_ptr<Character>>&, getPlayers, (), (const, override));
-        MOCK_METHOD(void, updateMagicPool, (int amount), (override));
-        MOCK_METHOD(Character*, getCurrentPlayer, (), (override));
-        MOCK_METHOD(void, setCurrentPlayer, (Character* player), (override));
-        MOCK_METHOD(void, resetMagicPool, (), (override));
-        MOCK_METHOD(void, addSpirit, (std::unique_ptr<Spirit> spirit), (override));
-};
 
 // Character tests
 // Constructor test

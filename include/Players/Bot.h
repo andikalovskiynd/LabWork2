@@ -117,15 +117,12 @@ public:
 
     const Difficulty getDifficulty() const;
 
-    #ifdef TEST_BUILD
     /**
      * @brief Sets bot's hand for test purposes.
      * @details This method available ONLY if TEST_BUILD used.
      * @param cards Vector of unique pointers on class Cards objects which will be set in bot's hand.
     */
     void setHand(std::vector<std::unique_ptr<Card>> cards);
-
-    #endif
 };
 
 #endif

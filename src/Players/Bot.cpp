@@ -118,7 +118,7 @@ BotState Bot::chooseState(GameManager& game)
 
     BotState currentState = BotState::Default;
 
-    if (botHealth <= CRITICAL_LOW_HEALTH_THRESHOLD || botHealth <= LOW_HEALTH_THRESHOLD)
+    if (botHealth <= CRITICAL_LOW_HEALTH_THRESHOLD)
     {
         currentState = BotState::CriticallyDefensive;
     }
@@ -275,32 +275,33 @@ std::unique_ptr<Card> Bot::takeTurn(GameManager& game)
                         currentCardScore = card.getMagicEffect() * 5;
                     }
 
-                    else if (currentCardScore > bestScore)
+                    if (currentCardScore > bestScore)
                     {
                         bestScore = currentCardScore;
                         bestCardIndex = static_cast<int>(i);
                     }
                 }
                 
-                if (bestCardIndex != -1)
-                {
-                    playedCard = playCard(bestCardIndex);
+            if (bestCardIndex != -1)
+            {
+                playedCard = playCard(bestCardIndex);
+            }
+
+            else 
+            {
+                Console::printFailedToPlayCard(*this);
+
+                if (!currentHand.empty())
+                {   
+                    Console::print("MEDIUM: stupid move!");
+                    playedCard = makeStupidMove();
                 }
 
                 else 
                 {
-                    Console::printFailedToPlayCard(*this);
-
-                    if (!currentHand.empty())
-                    {
-                        playedCard = makeStupidMove();
-                    }
-
-                    else 
-                    {
-                        playedCard = nullptr;
-                    }
+                    playedCard = nullptr;
                 }
+            }
                 break;
         }
 
@@ -602,9 +603,7 @@ const Difficulty Bot::getDifficulty() const
     return botDifficulty;
 }
 
-#ifdef TEST_BUILD
 void Bot::setHand(std::vector<std::unique_ptr<Card>> cards) 
 {
     hand = std::move(cards); 
 }
-#endif
